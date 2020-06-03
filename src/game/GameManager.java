@@ -1,23 +1,29 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import game.object.GameObject;
-import resource.RenderEnum;
-import resource.Resources;
+import game.resource.RenderEnum;
+import game.resource.Resources;
+import game.screen.MainScene;
+import game.screen.SceneManager;
+
 
 public class GameManager{
 	
-	private Scanner sc ;
+	private Input input ;
 	private StringBuilder sb;
+	
+	private Player player;
+	private SceneManager sceneManager;	
 	
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	
 	public GameManager() {
 
-		sc = new Scanner(System.in);	
+		input = new Input(this);	
 		sb = new StringBuilder();
+		sceneManager = new SceneManager();
 	}
 
 	
@@ -25,7 +31,7 @@ public class GameManager{
 		Resources.print(RenderEnum.TAG_START_MAIN);
 		Resources.print("1. 게임 시작", "2. 게임 종료");
 		
-		int in = input(1, 2);		
+		int in = input.getInt(1, 2);		
 		
 		if(in == 1) {
 			Resources.print(RenderEnum.TAG_START_SELECT);
@@ -40,15 +46,23 @@ public class GameManager{
 			}
  
 			Resources.print(saveFiles);
-			in = input(1, curSaveFileCount + 1);
+			in = input.getInt(1, curSaveFileCount + 1);
 			if(in== curSaveFileCount + 1) {
-				
+				// Add New Player
+				player = new Player();
 			}
 			else {
-				
+				// Load Player
 			}
 			
-			return true;
+			if(player == null)
+				return false;
+			else {
+				
+				// 현재 씬을 표시
+				
+				return true;				
+			}
 		}
 		
 		return false;
@@ -60,7 +74,7 @@ public class GameManager{
 		
 		while(true) {
 			
-			
+			sceneManager.getScene().show(input);
 			
 			
 		}		
@@ -72,17 +86,6 @@ public class GameManager{
 			sb.append('\n');
 		}
 		System.out.println(sb.toString());
-	}
-
-	public int input(int min, int max) {
-		System.out.print(">>");
-		int in = sc.nextInt();
-		while(in < min || in > max) {
-			System.out.print("Wrong Input. Re >>");
-			in = sc.nextInt();
-		}
-		clear();
-		return in;
 	}
 	
 	public static void main(String[] args) {	

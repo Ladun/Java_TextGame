@@ -6,7 +6,6 @@ public abstract class GameObject {
 
 	protected String tag;
 	protected float posX,posY;
-	protected int currentPlace;
 	protected boolean active = true;
 	
 	public abstract void update(GameManager gm);

@@ -1,4 +1,4 @@
-package resource;
+package game.resource;
 
 public enum RenderEnum {
 	TAG_START_MAIN, 
