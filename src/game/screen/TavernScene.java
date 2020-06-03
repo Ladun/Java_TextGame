@@ -2,7 +2,7 @@ package game.screen;
 
 import game.GameManager;
 
-public class AdventureScene extends AbstractScene{
+public class TavernScene extends AbstractScene{
 
 	@Override
 	public void show(GameManager gm) {

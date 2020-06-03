@@ -13,13 +13,27 @@ public class Input {
 	}
 	
 	public int getInt(int min, int max) {
+		int in = getIntWithoutClear(min, max);
+		gm.clear();
+		return in;
+	}
+	public int getIntWithoutClear(int min, int max) {
 		System.out.print(">>");
 		int in = sc.nextInt();
 		while(in < min || in > max) {
 			System.out.print("Wrong Input. Re >>");
 			in = sc.nextInt();
 		}
-		gm.clear();
 		return in;
+	}
+	
+	public String getString(int maxLength) {
+		System.out.print(">>");
+		String st ;
+		do {
+			st = sc.next();
+		}while(st.length() > maxLength);
+		
+		return st;
 	}
 }

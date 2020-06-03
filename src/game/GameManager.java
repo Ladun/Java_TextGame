@@ -1,11 +1,12 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import game.object.Adventurer;
 import game.object.GameObject;
 import game.resource.RenderEnum;
 import game.resource.Resources;
-import game.screen.MainScene;
 import game.screen.SceneManager;
 
 
@@ -14,7 +15,7 @@ public class GameManager{
 	private Input input ;
 	private StringBuilder sb;
 	
-	private Player player;
+	private PlayInfo playInfo;
 	private SceneManager sceneManager;	
 	
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
@@ -48,18 +49,16 @@ public class GameManager{
 			Resources.print(saveFiles);
 			in = input.getInt(1, curSaveFileCount + 1);
 			if(in== curSaveFileCount + 1) {
-				// Add New Player
-				player = new Player();
+				MakePlayInfo();
 			}
 			else {
-				// Load Player
+				// TODO: Load PlayInfo
 			}
 			
-			if(player == null)
+			if(playInfo == null)
 				return false;
 			else {
 				
-				// 현재 씬을 표시
 				
 				return true;				
 			}
@@ -68,13 +67,12 @@ public class GameManager{
 		return false;
 	}
 
-
 	public void update() {
 		
 		
 		while(true) {
 			
-			sceneManager.getScene().show(input);
+			sceneManager.getScene().show(this);
 			
 			
 		}		
@@ -88,6 +86,52 @@ public class GameManager{
 		System.out.println(sb.toString());
 	}
 	
+	private void MakePlayInfo() {
+		
+		int in;
+
+		System.out.print("이름을 정해주세요.(최대 10자)");
+		String str = input.getString(10);
+		
+		int stre, vita, inte, agil, dexi;
+		Random rand = new Random();
+		do {
+			stre = rand.nextInt(100);
+			vita = rand.nextInt(100);
+			inte = rand.nextInt(100);
+			agil = rand.nextInt(100);
+			dexi = rand.nextInt(100);
+			Resources.print(50, 
+					"Name: " + str,
+					"Strength: " + stre,
+					"Vitality: " + vita, 
+					"Intellect: " + inte, 
+					"Agility: " + agil, 
+					"Dexterity: " + dexi,
+					"\n다시 설정하시겠습니까?\n1. 예\n2. 아니요");	
+								
+			in = input.getInt(1, 2);
+		}while(in == 1);
+		
+		playInfo = new PlayInfo(new Adventurer(str, stre, vita, inte, agil, dexi));
+		
+	}
+	
+	private void LoadPlayInfo() {
+		
+	}
+	
+	//------------------------------------------------------------
+	public Input getInput() {
+		return input;
+	}
+
+
+	public SceneManager getSceneManager() {
+		return sceneManager;
+	}
+
+
 	public static void main(String[] args) {	
 		GameManager gm = new GameManager();
 		if(gm.init())

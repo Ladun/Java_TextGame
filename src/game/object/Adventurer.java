@@ -5,14 +5,17 @@ import game.GameManager;
 public class Adventurer extends Entity{
 	
 
-	public Adventurer(int strenth, int vitality, int intellect, int agility, int dexterity) {
-		super(strenth, vitality, intellect, agility, dexterity);
-		// TODO Auto-generated constructor stub
+	private String name;
+	
+	public Adventurer(String name,int strength, int vitality, int intellect, int agility, int dexterity) {
+		super(strength, vitality, intellect, agility, dexterity);
+		this.name = name;
+
 	}
 
 	@Override
 	public void update(GameManager gm) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
