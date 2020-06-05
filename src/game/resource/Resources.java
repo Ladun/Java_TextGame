@@ -18,21 +18,21 @@ public class Resources {
 		System.out.println(getAscii(tag));
 	}
 	
-	public static void print(int col, int row, RenderEnum... tags) {
+	public static void printFrame(int col, int row, RenderEnum... tags) {
 		
 		System.out.println(makeFrame(col, row, tags));
 	}
 	
-	public static void print(String... strings) {
+	public static void print(String... args) {
 		
-		System.out.println(getMenus(strings));
+		System.out.println(getMenus(args));
 	}
 
-	public static void print(int delay, String... strings) {
+	public static void print(int delay, String... args) {
 
 		System.out.println("=========================================================================");
-		for(int i = 0;i < strings.length;i++) {
-			System.out.println(strings[i]);
+		for(int i = 0;i < args.length;i++) {
+			System.out.println(args[i]);
 			try {
 				Thread.sleep(delay);
 			} catch (InterruptedException e) {

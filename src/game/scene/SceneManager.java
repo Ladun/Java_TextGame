@@ -9,7 +9,7 @@ public class SceneManager {
 		MAIN, SHOP, ADVENTURE, ADVENTURE_SELETE,TAVERN, OPTION
 	}
 	
-	private SceneType currentScene;
+	private SceneType currentScene, preScene;
 	private Map<SceneType, AbstractScene> scenes;
 	
 	public SceneManager() {
@@ -24,15 +24,19 @@ public class SceneManager {
 	}
 	
 	public void setScene(SceneType st) {
+		preScene = currentScene;
 		currentScene = st;
 	}
 	
-	public AbstractScene getScene() {
+	public AbstractScene  getScene() {
 		return scenes.get(currentScene);
 	}
 	
-	public SceneType currentScene() {
+	public SceneType getCurrentScene() {
 		return currentScene;
 	}
 
+	public SceneType getPreviousScene() {
+		return preScene;
+	}
 }

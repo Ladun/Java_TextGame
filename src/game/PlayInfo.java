@@ -18,4 +18,9 @@ public class PlayInfo {
 	}
 	
 	
+	public Adventurer getPlayer() {
+		
+		return player;
+	}
+	
 }

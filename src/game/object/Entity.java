@@ -28,5 +28,42 @@ public abstract class Entity extends GameObject{
 		maxStress = intellect;
 		stress = 0;		
 	}
+
+	public int getStrength() {
+		return strength;
+	}
+
+	public int getVitality() {
+		return vitality;
+	}
+
+	public int getIntellect() {
+		return intellect;
+	}
+
+	public int getAgility() {
+		return agility;
+	}
+
+	public int getDexterity() {
+		return dexterity;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public int getMaxStress() {
+		return maxStress;
+	}
+
+	public int getStress() {
+		return stress;
+	}
+	
 	
 }

@@ -19,4 +19,7 @@ public class Adventurer extends Entity{
 		
 	}
 
+	public String getName() {
+		return name;
+	}
 }

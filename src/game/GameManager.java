@@ -131,21 +131,24 @@ public class GameManager{
 		return sceneManager;
 	}
 
-
+	public PlayInfo getPlayInfo() {
+		return playInfo;
+	}
+	
+	//------------------------------------------------------------
 	public static void main(String[] args) {	
 		GameManager gm = new GameManager();
 		if(gm.init())
 			gm.update();
-		else {
-			System.out.println("게임 종료....");
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		
+		
+		System.out.println("게임 종료....");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-
-	}	
+	}
 }
 
 /*

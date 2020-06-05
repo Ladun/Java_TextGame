@@ -31,7 +31,7 @@ public class TavernScene extends AbstractScene{
 			break;
 		}
 		case 2:{
-		Resources.print(3, 2, 
+		Resources.printFrame(3, 2, 
 				RenderEnum.MAGICIAN, RenderEnum.NONE, RenderEnum.NONE,
 			    RenderEnum.MAGICIAN, RenderEnum.NONE, RenderEnum.NONE);
 		}
