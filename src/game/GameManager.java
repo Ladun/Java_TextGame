@@ -7,7 +7,7 @@ import game.object.Adventurer;
 import game.object.GameObject;
 import game.resource.RenderEnum;
 import game.resource.Resources;
-import game.screen.SceneManager;
+import game.scene.SceneManager;
 
 
 public class GameManager{

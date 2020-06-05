@@ -1,4 +1,4 @@
-package game.screen;
+package game.scene;
 
 import game.GameManager;
 

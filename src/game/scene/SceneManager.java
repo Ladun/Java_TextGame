@@ -1,4 +1,4 @@
-package game.screen;
+package game.scene;
 
 import java.util.HashMap;
 import java.util.Map;

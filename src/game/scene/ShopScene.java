@@ -1,9 +1,9 @@
-package game.screen;
+package game.scene;
 
 import game.GameManager;
 import game.resource.RenderEnum;
 import game.resource.Resources;
-import game.screen.SceneManager.SceneType;
+import game.scene.SceneManager.SceneType;
 
 public class ShopScene  extends AbstractScene{
 
