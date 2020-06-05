@@ -12,11 +12,13 @@ public class MainScene extends AbstractScene {
 		// TODO Auto-generated method stub
 
 		Resources.print(RenderEnum.TAG_MAIN);
-		Resources.print("1. 모험 가기","2. 상점 가기","3. 선술집 가기");
-		
-		int in = gm.getInput().getInt(1, 3);
+		Resources.print("0. 메뉴", "1. 모험 가기","2. 상점 가기","3. 선술집 가기");
+		int	in = gm.getInput().getInt(0, 3);		
 		
 		switch(in) {
+		case 0:
+			gm.getSceneManager().setScene(SceneType.OPTION);				
+			break;
 		case 1:
 			gm.getSceneManager().setScene(SceneType.ADVENTURE_SELETE);			
 			break;

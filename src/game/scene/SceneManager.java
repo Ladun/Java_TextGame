@@ -6,7 +6,7 @@ import java.util.Map;
 public class SceneManager {
 	
 	public enum SceneType{
-		MAIN, SHOP, ADVENTURE, ADVENTURE_SELETE,TAVERN
+		MAIN, SHOP, ADVENTURE, ADVENTURE_SELETE,TAVERN, OPTION
 	}
 	
 	private SceneType currentScene;
@@ -19,6 +19,7 @@ public class SceneManager {
 		scenes.put(SceneType.ADVENTURE, new AdventureScene());
 		scenes.put(SceneType.ADVENTURE_SELETE, new AdventureSelectScene());
 		scenes.put(SceneType.TAVERN, new TavernScene());
+		scenes.put(SceneType.OPTION, new OptionScene());
 		currentScene = SceneType.MAIN;
 	}
 	
