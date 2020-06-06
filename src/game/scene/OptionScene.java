@@ -2,7 +2,7 @@ package game.scene;
 
 import game.GameManager;
 import game.object.Adventurer;
-import game.resource.Resources;
+import game.util.TextMaker;
 
 public class OptionScene extends AbstractScene {
 
@@ -12,7 +12,7 @@ public class OptionScene extends AbstractScene {
 
 		switch(currentPos){
 		case 0:{
-			Resources.print("0. 나가기", "1. 내 상태");
+			TextMaker.print("0. 나가기", "1. 정보");
 
 			int in = gm.getInput().getInt(0, 1);
 			switch(in) {
@@ -23,15 +23,8 @@ public class OptionScene extends AbstractScene {
 				Adventurer player = gm.getPlayInfo().getPlayer();
 				
 				//TODO: makeFrame 함수를 수정해서 원하는 크기의 사각형을 만들 수 있게
-				Resources.print(
-						"Name: " + player.getName(),
-						"HP: " + player.getHealth() + "/" + player.getMaxHealth(),
-						"Stress: " + player.getStress() + "/" + player.getMaxStress(),
-						"Strength: " + player.getStrength(),
-						"Vitality: " + player.getVitality(), 
-						"Intellect: " + player.getIntellect(), 
-						"Agility: " + player.getAgility(), 
-						"Dexterity: " + player.getDexterity());
+				TextMaker.printFrame(1, 1, 16, 8, false,
+						player.getInfo());
 				break;
 			}
 			break;

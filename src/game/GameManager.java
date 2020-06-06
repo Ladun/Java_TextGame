@@ -6,8 +6,8 @@ import java.util.Random;
 import game.object.Adventurer;
 import game.object.GameObject;
 import game.resource.RenderEnum;
-import game.resource.Resources;
 import game.scene.SceneManager;
+import game.util.TextMaker;
 
 
 public class GameManager{
@@ -29,13 +29,13 @@ public class GameManager{
 
 	
 	public boolean init() {
-		Resources.print(RenderEnum.TAG_START_MAIN);
-		Resources.print("1. 게임 시작", "2. 게임 종료");
+		TextMaker.printWithTag(RenderEnum.TAG_START_MAIN);
+		TextMaker.print("1. 게임 시작", "2. 게임 종료");
 		
 		int in = input.getInt(1, 2);		
 		
 		if(in == 1) {
-			Resources.print(RenderEnum.TAG_START_SELECT);
+			TextMaker.printWithTag(RenderEnum.TAG_START_SELECT);
 
 			String[] saveFiles = new String[10];
 			// 세이브 파일 확인 하기
@@ -46,7 +46,7 @@ public class GameManager{
 				saveFiles[curSaveFileCount] = (curSaveFileCount + 1) + ". New";
 			}
  
-			Resources.print(saveFiles);
+			TextMaker.print(saveFiles);
 			in = input.getInt(1, curSaveFileCount + 1);
 			if(in== curSaveFileCount + 1) {
 				MakePlayInfo();
@@ -101,7 +101,7 @@ public class GameManager{
 			inte = rand.nextInt(100);
 			agil = rand.nextInt(100);
 			dexi = rand.nextInt(100);
-			Resources.print(50, 
+			TextMaker.printWithDelay(50, 
 					"Name: " + str,
 					"Strength: " + stre,
 					"Vitality: " + vita, 

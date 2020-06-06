@@ -2,8 +2,8 @@ package game.scene;
 
 import game.GameManager;
 import game.resource.RenderEnum;
-import game.resource.Resources;
 import game.scene.SceneManager.SceneType;
+import game.util.TextMaker;
 
 public class MainScene extends AbstractScene {
 
@@ -11,8 +11,8 @@ public class MainScene extends AbstractScene {
 	public void show(GameManager gm) {
 		// TODO Auto-generated method stub
 
-		Resources.print(RenderEnum.TAG_MAIN);
-		Resources.print("0. 메뉴", "1. 모험 가기","2. 상점 가기","3. 선술집 가기");
+		TextMaker.printWithTag(RenderEnum.TAG_MAIN);
+		TextMaker.print("0. 메뉴", "1. 모험 가기","2. 상점 가기","3. 선술집 가기");
 		int	in = gm.getInput().getInt(0, 3);		
 		
 		switch(in) {

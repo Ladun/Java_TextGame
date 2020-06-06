@@ -12,45 +12,13 @@ package game.resource;
 
 public class Resources {
 
-
-	public static void print(RenderEnum tag) {
-		
-		System.out.println(getAscii(tag));
-	}
 	
-	public static void printFrame(int col, int row, RenderEnum... tags) {
-		
-		System.out.println(makeFrame(col, row, tags));
-	}
-	
-	public static void print(String... args) {
-		
-		System.out.println(getMenus(args));
-	}
-
-	public static void print(int delay, String... args) {
-
-		System.out.println("=========================================================================");
-		for(int i = 0;i < args.length;i++) {
-			System.out.println(args[i]);
-			try {
-				Thread.sleep(delay);
-			} catch (InterruptedException e) {
-
-				e.printStackTrace();
-			}
-		}
-		System.out.println("=========================================================================");
-	}
-	
-	private static String makeFrame(int col, int row, RenderEnum... tags ) {
+	public static String makeFrame(int col, int row, int width, int height, boolean numeric, String... tags ) {
 
 		if(tags.length != col * row)
 			return "";
 		
 		StringBuilder sb = new StringBuilder();		
-		int width = 23;
-		int height = 10;
 		
 		int r = 0, c = 0;
 				
@@ -71,17 +39,41 @@ public class Resources {
 		// Frame 안에 들어갈 이미지 
 		for(int y = 0; y < row; y++) {
 			for(int x = 0; x < col; x++) {
-				if(tags[y * col + x] == RenderEnum.NONE)
+				String s = tags[y * col + x];
+				if(s.length() == 0)
 					continue;
-				String s = getAscii(tags[y * col + x]);
-				ret[(y * height + 1) * (col * width + 2) + x * width + 1] = (char)((int)'1' + (y * col + x));
-				for(int h = 0; h < 7; h++) {
-					for(int w = 0; w < 21;w++) {
-						char _ch = s.charAt(h * 21 + w);
-						if(_ch == '\n')
+				
+				// 입력받은 문자열의 최대 너비, 높이
+				int rw = 0, rh = 1, tw = 0;
+				for(int i = 0; i < s.length();i++)
+				{
+					if(s.charAt(i) == '\n') {
+						rh++;
+						if(rw < tw)
+							rw = tw;
+						tw = 0;
+					}
+					else
+						tw++;
+				}
+
+				// 격자의 좌상단에서 얼마나 떨어질 건지
+				int wOffset = (width - 1 - rw) / 2;
+				int hOffset = (height - 1 - rh) / 2;
+				if(wOffset < 0 || hOffset < 0)
+					continue;
+				
+				
+				if(numeric)
+					ret[(y * height + 1) * (col * width + 2) + x * width + 1] = (char)((int)'1' + (y * col + x));
+				int rIdx = 0;
+				for(int h = 0; h < rh; h++) {
+					for(int w = 0; w < rw + 1;w++) {
+						char _ch = s.charAt(rIdx++);
+						if(_ch == '\n' || rIdx >= s.length())
 							break;
 						
-						ret[(y * height + h + 2) * (col * width + 2) + x * width + w + 2] = _ch;
+						ret[(y * height + h + 1 + hOffset) * (col * width + 2) + x * width + w + 1 + wOffset] = _ch;
 					}
 				}
 			}
@@ -103,7 +95,7 @@ public class Resources {
 		return new String(ret);
 	}
 	
-	private static String getAscii(RenderEnum tag) {
+	public static String getAscii(RenderEnum tag) {
 		switch(tag) {
 		case TAG_START_MAIN: 
 			return
@@ -180,7 +172,7 @@ public class Resources {
 		}
 	}
 	
-	private static String getMenus(String... strings) {
+	public static String getMenus(String... strings) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("=========================================================================\n"); // = 73개
 		for(String str : strings) {

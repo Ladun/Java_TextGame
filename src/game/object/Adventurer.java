@@ -22,4 +22,16 @@ public class Adventurer extends Entity{
 	public String getName() {
 		return name;
 	}
+	
+	public String getInfo() {
+		return 
+				"Name: " + name +
+				"\nHP: " + health + "/" + maxHealth +
+				"\nStress: " + stress + "/" + maxStress +
+				"\nStrength: " + strength +
+				"\nVitality: " + vitality +
+				"\nIntellect: " + intellect + 
+				"\nAgility: " + agility+ 
+				"\nDexterity: " + dexterity;
+	}
 }
