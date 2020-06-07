@@ -8,6 +8,12 @@ import game.util.TextMaker;
 public class MainScene extends AbstractScene {
 
 	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void show(GameManager gm) {
 		// TODO Auto-generated method stub
 

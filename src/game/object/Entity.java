@@ -14,6 +14,11 @@ public abstract class Entity extends GameObject{
 	protected int health;
 	protected int maxStress;
 	protected int stress;
+	
+	public Entity() {
+		setRandomly();
+		confirm();
+	}
 
 	public Entity(int strength, int vitality, int intellect, int agility, int dexterity) {
 		this.strength = strength;
@@ -21,12 +26,40 @@ public abstract class Entity extends GameObject{
 		this.intellect = intellect;
 		this.agility = agility;
 		this.dexterity = dexterity;
-		
+		confirm();
+	}
+	
+	private void confirm() {
+
 		maxHealth = (int)(strength * 1.5f);
 		health = maxHealth;
 		
 		maxStress = intellect;
-		stress = 0;		
+		stress = 0;	
+	}
+	
+	public void setRandomly() {
+		strength 	= (int)(Math.random() * 100);
+		vitality 	= (int)(Math.random() * 100);
+		intellect 	= (int)(Math.random() * 100);
+		agility 	= (int)(Math.random() * 100);
+		dexterity 	= (int)(Math.random() * 100);
+	}
+	
+	public String getInfo() {
+		return 				
+				"\nHP: " + health + "/" + maxHealth +
+				"\nStress: " + stress + "/" + maxStress +
+				getStat();
+	}
+
+	public String getStat() {
+		return 
+				"\nStrength: " + strength +
+				"\nVitality: " + vitality +
+				"\nIntellect: " + intellect + 
+				"\nAgility: " + agility+ 
+				"\nDexterity: " + dexterity;
 	}
 
 	public int getStrength() {

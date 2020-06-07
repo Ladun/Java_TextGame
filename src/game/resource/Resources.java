@@ -32,6 +32,7 @@ public class Resources {
 			for(x = 0; x < col * width + 1;x++) {
 				ret[y * (col *width + 2) + x] = ' ';				
 			}
+			if(y != row * height)
 			ret[y * (col * width + 2)+ x] = '\n';
 		}		
 		
@@ -49,21 +50,23 @@ public class Resources {
 				{
 					if(s.charAt(i) == '\n') {
 						rh++;
-						if(rw < tw)
-							rw = tw;
 						tw = 0;
 					}
-					else
+					else {
 						tw++;
+						if(rw < tw)
+							rw = tw;
+					}
+						
 				}
-
+				
 				// 격자의 좌상단에서 얼마나 떨어질 건지
 				int wOffset = (width - 1 - rw) / 2;
 				int hOffset = (height - 1 - rh) / 2;
 				if(wOffset < 0 || hOffset < 0)
-					continue;
+					continue;				
 				
-				
+				// 격자에 숫자 붙이는 거
 				if(numeric)
 					ret[(y * height + 1) * (col * width + 2) + x * width + 1] = (char)((int)'1' + (y * col + x));
 				int rIdx = 0;
@@ -164,7 +167,7 @@ public class Resources {
 					"   .../      \\...   \n" + 
 					".''  /        \\  ``.\n" + 
 					"'...            ...'\n" + 
-					"    ''''''''''''     ";
+					"    '''''''''''' ";
 			
 		default:
 			return "";

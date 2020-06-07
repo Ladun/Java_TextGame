@@ -6,6 +6,14 @@ import game.util.TextMaker;
 
 public class OptionScene extends AbstractScene {
 
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public void show(GameManager gm) {
 
@@ -22,9 +30,10 @@ public class OptionScene extends AbstractScene {
 			case 1:
 				Adventurer player = gm.getPlayInfo().getPlayer();
 				
-				//TODO: makeFrame 함수를 수정해서 원하는 크기의 사각형을 만들 수 있게
 				TextMaker.printFrame(1, 1, 16, 8, false,
 						player.getInfo());
+				TextMaker.printFrame(1, 1, 16, 2, false,
+						"Money: ");
 				break;
 			}
 			break;

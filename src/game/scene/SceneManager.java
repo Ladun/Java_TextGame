@@ -23,6 +23,12 @@ public class SceneManager {
 		currentScene = SceneType.MAIN;
 	}
 	
+	public void update() {
+		for(SceneType key : scenes.keySet()) {
+			scenes.get(key).update();
+		}
+	}
+	
 	public void setScene(SceneType st) {
 		preScene = currentScene;
 		currentScene = st;

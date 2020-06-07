@@ -18,6 +18,9 @@ public class GameManager{
 	private PlayInfo playInfo;
 	private SceneManager sceneManager;	
 	
+	private int days = 0;
+	private int times = 0; // 0 ~ 23;
+	
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	
 	public GameManager() {
@@ -74,7 +77,12 @@ public class GameManager{
 			
 			sceneManager.getScene().show(this);
 			
-			
+			if(times >= 24)
+			{
+				sceneManager.update();
+				days++;
+				times = 0;
+			}
 		}		
 	}
 	
@@ -93,27 +101,18 @@ public class GameManager{
 		System.out.print("이름을 정해주세요.(최대 10자)");
 		String str = input.getString(10);
 		
-		int stre, vita, inte, agil, dexi;
-		Random rand = new Random();
+		Adventurer player = new Adventurer(str);
 		do {
-			stre = rand.nextInt(100);
-			vita = rand.nextInt(100);
-			inte = rand.nextInt(100);
-			agil = rand.nextInt(100);
-			dexi = rand.nextInt(100);
+			player.setRandomly();
 			TextMaker.printWithDelay(50, 
 					"Name: " + str,
-					"Strength: " + stre,
-					"Vitality: " + vita, 
-					"Intellect: " + inte, 
-					"Agility: " + agil, 
-					"Dexterity: " + dexi,
+					player.getStat(),
 					"\n다시 설정하시겠습니까?\n1. 예\n2. 아니요");	
 								
 			in = input.getInt(1, 2);
 		}while(in == 1);
 		
-		playInfo = new PlayInfo(new Adventurer(str, stre, vita, inte, agil, dexi));
+		playInfo = new PlayInfo(player);
 		
 	}
 	

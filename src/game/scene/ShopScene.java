@@ -7,7 +7,12 @@ import game.util.TextMaker;
 
 public class ShopScene  extends AbstractScene{
 
-	
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public void show(GameManager gm) {
