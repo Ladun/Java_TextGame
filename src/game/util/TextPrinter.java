@@ -3,7 +3,7 @@ package game.util;
 import game.resource.RenderEnum;
 import game.resource.Resources;
 
-public class TextMaker {
+public class TextPrinter {
 	
 	public static final int FRAME_IMAGE_WIDTH = 23;
 	public static final int FRAME_IMAGE_HEIGHT = 10;
