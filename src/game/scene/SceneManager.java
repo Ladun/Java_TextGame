@@ -3,6 +3,8 @@ package game.scene;
 import java.util.HashMap;
 import java.util.Map;
 
+import game.scene.adventure.AdventureScene;
+
 public class SceneManager {
 	
 	public enum SceneType{
@@ -24,9 +26,7 @@ public class SceneManager {
 	}
 	
 	public void update() {
-		for(SceneType key : scenes.keySet()) {
-			scenes.get(key).update();
-		}
+		((TavernScene)scenes.get(SceneType.TAVERN)).update();
 	}
 	
 	public void setScene(SceneType st) {
@@ -34,8 +34,13 @@ public class SceneManager {
 		currentScene = st;
 	}
 	
-	public AbstractScene  getScene() {
+	public AbstractScene getScene() {
 		return scenes.get(currentScene);
+	}
+	
+	public <T extends AbstractScene> T getScene(SceneType st) {
+		
+		return (T)scenes.get(st);
 	}
 	
 	public SceneType getCurrentScene() {

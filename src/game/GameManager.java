@@ -7,7 +7,7 @@ import game.object.Adventurer;
 import game.object.GameObject;
 import game.resource.RenderEnum;
 import game.scene.SceneManager;
-import game.util.TextMaker;
+import game.util.TextPrinter;
 
 
 public class GameManager{
@@ -21,6 +21,8 @@ public class GameManager{
 	private int days = 0;
 	private int times = 0; // 0 ~ 23;
 	
+	private boolean running = false;
+	
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	
 	public GameManager() {
@@ -32,13 +34,13 @@ public class GameManager{
 
 	
 	public boolean init() {
-		TextMaker.printWithTag(RenderEnum.TAG_START_MAIN);
-		TextMaker.print("1. 게임 시작", "2. 게임 종료");
+		TextPrinter.printWithTag(RenderEnum.TAG_START_MAIN);
+		TextPrinter.print("1. 게임 시작", "2. 게임 종료");
 		
 		int in = input.getInt(1, 2);		
 		
 		if(in == 1) {
-			TextMaker.printWithTag(RenderEnum.TAG_START_SELECT);
+			TextPrinter.printWithTag(RenderEnum.TAG_START_SELECT);
 
 			String[] saveFiles = new String[10];
 			// 세이브 파일 확인 하기
@@ -49,7 +51,7 @@ public class GameManager{
 				saveFiles[curSaveFileCount] = (curSaveFileCount + 1) + ". New";
 			}
  
-			TextMaker.print(saveFiles);
+			TextPrinter.print(saveFiles);
 			in = input.getInt(1, curSaveFileCount + 1);
 			if(in== curSaveFileCount + 1) {
 				MakePlayInfo();
@@ -72,8 +74,8 @@ public class GameManager{
 
 	public void update() {
 		
-		
-		while(true) {
+		running = true;
+		while(running) {
 			
 			sceneManager.getScene().show(this);
 			
@@ -104,7 +106,7 @@ public class GameManager{
 		Adventurer player = new Adventurer(str);
 		do {
 			player.setRandomly();
-			TextMaker.printWithDelay(50, 
+			TextPrinter.printWithDelay(50, 
 					"Name: " + str,
 					player.getStat(),
 					"\n다시 설정하시겠습니까?\n1. 예\n2. 아니요");	
@@ -134,6 +136,11 @@ public class GameManager{
 		return playInfo;
 	}
 	
+	
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
 	//------------------------------------------------------------
 	public static void main(String[] args) {	
 		GameManager gm = new GameManager();

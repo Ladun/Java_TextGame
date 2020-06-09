@@ -146,6 +146,9 @@ public class Resources {
 	
 	public static String getAscii(RenderEnum tag) {
 		switch(tag) {
+		case TAG_VS:
+			return 
+					"VS";
 		case TAG_START_MAIN: 
 			return
 					"______  _   _  _   _  _____  _____  _____  _   _ \n" + 
@@ -208,8 +211,8 @@ public class Resources {
 			return
 					"  -   -   -  -      _\n" + 
 					" =   -    -   -  -_   |_-=-\n" + 
-					"-0-=__|,  |00__--|   |  _-_\n" + 
-					"      |  .|-- =_ |   |-=\n" + 
+					"-|-=__|,  | O__--|   |  _-_\n" + 
+					" O    |  .|-- =_ |   |-=\n" + 
 					"____  | . | |  -=|   | | __\n" + 
 					".',\"} | __|_|_   |   | |{ (\n" + 
 					"_____}|{______}__|___|_{)___";

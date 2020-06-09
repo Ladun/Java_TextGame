@@ -11,11 +11,11 @@ public class Adventurer extends Entity{
 	public Adventurer(String name) {
 		super();
 		this.name = name;
-		type = RenderEnum.MAGICIAN;
 	}
 	
-	public Adventurer(String name,int strength, int vitality, int intellect, int agility, int dexterity) {
+	public Adventurer(String name, RenderEnum type,int strength, int vitality, int intellect, int agility, int dexterity) {
 		super(strength, vitality, intellect, agility, dexterity);
+		this.type = type;
 		this.name = name;
 
 	}
@@ -24,6 +24,19 @@ public class Adventurer extends Entity{
 	public void update(GameManager gm) {
 
 		
+	}	
+
+	@Override
+	protected void confirm(){
+		super.confirm();
+		
+		// 밑에 오버라이드 된거 지우고 능력치에 따라 직업 설정
+	}
+	@Override
+	public void setRandomly() {
+		super.setRandomly();
+		RenderEnum[] values = RenderEnum.values();
+		type = values[(int)(Math.random() * 4)];
 	}
 	
 	public static String makeName() {
@@ -42,7 +55,7 @@ public class Adventurer extends Entity{
 	@Override
 	public String getInfo() {
 		return 
-				"Name: " + name +
+				"Name: " + name + "\n" +
 				super.getInfo();
 	}
 }

@@ -6,6 +6,7 @@ public enum RenderEnum {
 	ARCHER,
 	WARRIOR,
 	TREASURE_HUNTER,
+	TAG_VS,
 	TAG_START_MAIN, 
 	TAG_START_SELECT,
 	TAG_SHOP,

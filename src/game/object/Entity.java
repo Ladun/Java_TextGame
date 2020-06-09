@@ -29,7 +29,7 @@ public abstract class Entity extends GameObject{
 		confirm();
 	}
 	
-	private void confirm() {
+	protected void confirm() {
 
 		maxHealth = (int)(strength * 1.5f);
 		health = maxHealth;
@@ -48,14 +48,14 @@ public abstract class Entity extends GameObject{
 	
 	public String getInfo() {
 		return 				
-				"\nHP: " + health + "/" + maxHealth +
-				"\nStress: " + stress + "/" + maxStress +
+				"HP: " + health + "/" + maxHealth +
+				"\nStress: " + stress + "/" + maxStress + "\n" +
 				getStat();
 	}
 
 	public String getStat() {
 		return 
-				"\nStrength: " + strength +
+				"Strength: " + strength +
 				"\nVitality: " + vitality +
 				"\nIntellect: " + intellect + 
 				"\nAgility: " + agility+ 

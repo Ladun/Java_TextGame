@@ -6,7 +6,7 @@ import game.GameManager;
 import game.object.Adventurer;
 import game.resource.RenderEnum;
 import game.scene.SceneManager.SceneType;
-import game.util.TextMaker;
+import game.util.TextPrinter;
 
 public class TavernScene extends AbstractScene{
 	
@@ -20,14 +20,14 @@ public class TavernScene extends AbstractScene{
 	public TavernScene() {
 		adventurers = new Adventurer[MAX_ADVENTURER];
 		leftDays = new int[MAX_ADVENTURER];
-		int addAdventurer = (int)(Math.random() * MAX_ADVENTURER) + 1;	
 		
-		for(int i = 0; i < addAdventurer;i++) {
+		for(int i = 0; i < 4;i++) {
 			adventurers[i] = new Adventurer(Adventurer.makeName());
 			leftDays[i] = (int)(Math.random() * 10) + 1;
 		}
 	}
-	
+
+
 	public void update() {	
 		
 		//머물 기간이 넘긴 모험가 삭제
@@ -65,7 +65,7 @@ public class TavernScene extends AbstractScene{
 		
 		switch(currentPos) {
 		case 0:{
-			TextMaker.print("0. 메뉴", "1. 나가기", "2. ", "3. 주변 용병 둘러보기");
+			TextPrinter.print("0. 메뉴", "1. 나가기", "2. ", "3. 주변 용병 둘러보기");
 			int in = gm.getInput().getInt(0, 3);
 
 			switch(in){
@@ -92,7 +92,7 @@ public class TavernScene extends AbstractScene{
 				else
 					strs[i] = RenderEnum.NONE;
 			}			
-			TextMaker.printFrame(MAX_ADVENTURER / 2, 2, TextMaker.FRAME_IMAGE_WIDTH, TextMaker.FRAME_IMAGE_HEIGHT, true, strs);
+			TextPrinter.printFrame(MAX_ADVENTURER / 2, 2, TextPrinter.FRAME_IMAGE_WIDTH, true, strs);
 			
 			String[] menus = new String[MAX_ADVENTURER + 2];
 			menus[0] = "0. 메뉴";
@@ -103,7 +103,7 @@ public class TavernScene extends AbstractScene{
 				else
 					menus[i + 2] = (i + 2) + ". ";
 			}
-			TextMaker.print(menus);
+			TextPrinter.print(menus);
 			
 			int in = gm.getInput().getInt(0, 1 + MAX_ADVENTURER);
 			switch(in){
@@ -115,7 +115,7 @@ public class TavernScene extends AbstractScene{
 				break;
 			default:
 				if(adventurers[in - 2] == null) {
-					TextMaker.printWithDelay(1200, "잘못 선택하셨습니다");
+					TextPrinter.printWithDelay(1200, "잘못 선택하셨습니다");
 					
 				}
 				else {
@@ -129,10 +129,10 @@ public class TavernScene extends AbstractScene{
 		case 4:{
 			
 			//TODO: makeFrame 함수를 수정해서 원하는 크기의 사각형을 만들 수 있게
-			TextMaker.printFrame(1, 1, 16, 8, false,
+			TextPrinter.printFrame(1, 1, 16, false,
 					showTarget.getInfo());
 			
-			TextMaker.print("0. 메뉴", "1. 뒤로 가기", "2. 고용");
+			TextPrinter.print("0. 메뉴", "1. 뒤로 가기", "2. 고용");
 			int in = gm.getInput().getInt(0, 3);
 
 			switch(in){
