@@ -13,34 +13,61 @@ package game.resource;
 public class Resources {
 
 	
-	public static String makeFrame(int col, int row, int width, int height, boolean numeric, String... tags ) {
+	public static String makeFrame(int col, int row, int width, boolean numeric, String... tags ) {
 
 		if(tags.length != col * row)
 			return "";
 		
 		StringBuilder sb = new StringBuilder();		
 		
-		int r = 0, c = 0;
+		int size = (col * width + 2);
+		//가변적인 높이를 가지는 틀을 만들기 위해
+		int[] heights = new int[row];
+		int totalHeight = 0;
+		
+		for(int i = 0, heightIdx = 0; i < tags.length;i++) {
+			int tmpHeight = 1;
+			if(tags[i].length() > 0) {
+				tmpHeight++;
+				if(numeric)
+					tmpHeight++;
+			}
+			
+			//각 문자열별 높이 구하기
+			for(int j = 0; j <tags[i].length(); j++) 
+				if(tags[i].charAt(j) == '\n')
+					tmpHeight++;
+
+			if(heights[heightIdx] < tmpHeight)
+				heights[heightIdx] = tmpHeight;
+			
+			if((i + 1) % col == 0) {
+				size += (heights[heightIdx]) * (col * width + 2);
+				totalHeight += heights[heightIdx];
+				heightIdx++;
+			}
+		}
 				
 		// 격자를 맞추기 위해 가로, 세로에 1씩 더함
 		// 가로의 경우 \n도 필요해서 1이 더 추가
-		char[] ret = new char[(row * height + 1) * (col * width + 2)];
+		char[] ret = new char[size];//[(row * height + 1) * (col * width + 2)];
 		
 		// 초기화
-		for(int y = 0; y < row * height + 1; y++) {
+		for(int y = 0; y < totalHeight + 1; y++) {
 			int x;
 			for(x = 0; x < col * width + 1;x++) {
 				ret[y * (col *width + 2) + x] = ' ';				
 			}
-			if(y != row * height)
-			ret[y * (col * width + 2)+ x] = '\n';
-		}		
+			if(y != totalHeight)
+				ret[y * (col * width + 2)+ x] = '\n';
+		}	
+		
 		
 		
 		// Frame 안에 들어갈 이미지 
-		for(int y = 0; y < row; y++) {
-			for(int x = 0; x < col; x++) {
-				String s = tags[y * col + x];
+		for(int r = 0, curH = 0; r < row; r++) {
+			for(int c = 0; c < col; c++) {
+				String s = tags[r * col + c];
 				if(s.length() == 0)
 					continue;
 				
@@ -61,40 +88,59 @@ public class Resources {
 				}
 				
 				// 격자의 좌상단에서 얼마나 떨어질 건지
-				int wOffset = (width - 1 - rw) / 2;
-				int hOffset = (height - 1 - rh) / 2;
+				int wOffset = (width - rw) / 2;
+				int hOffset = (heights[r] - rh) / 2;
 				if(wOffset < 0 || hOffset < 0)
 					continue;				
-				
+
 				// 격자에 숫자 붙이는 거
-				if(numeric)
-					ret[(y * height + 1) * (col * width + 2) + x * width + 1] = (char)((int)'1' + (y * col + x));
+				if(numeric) {
+					int number = (r * col + c + 2);
+					int numLen = 0;
+					while(number > 0) {
+						numLen++;
+						number /= 10;
+					}
+					number = (r * col + c + 2);
+					while(numLen > 0) {
+						ret[(curH + 1) * (col * width + 2) + c * width + numLen] = (char)('0' + number % 10);
+						number /= 10;
+						numLen--;
+					}
+				}
 				int rIdx = 0;
 				for(int h = 0; h < rh; h++) {
 					for(int w = 0; w < rw + 1;w++) {
+						if(rIdx >= s.length())
+							break;
 						char _ch = s.charAt(rIdx++);
-						if(_ch == '\n' || rIdx >= s.length())
+						if(_ch == '\n')
 							break;
 						
-						ret[(y * height + h + 1 + hOffset) * (col * width + 2) + x * width + w + 1 + wOffset] = _ch;
+						ret[(curH + h + 1 + hOffset) * (col * width + 2) + c * width + w + 1 + wOffset] = _ch;
 					}
 				}
 			}
+			curH += heights[r];
 		}
 		
 		// Frame 틀 생성
-		for(int y = 0; y < row * height + 1; y++) { 
-			for(int x = 0; x < col * width + 1;x++) {
-				int idx =  y * (col * width + 2) + x;
-				if(y == 0)
-					ret[idx] = '_';
-				else if(x % width == 0) 
-					ret[idx] = '|';
-				else if(y % height == 0)
-					ret[idx] = '_';			
+		for(int vh = 0, tmpH = 0; vh < row; vh++) {
+			// 맨 위
+			for(int x = 0; x < col * width + 1;x++)
+				ret[x] = '_';
+			
+			for(int y = 0; y < heights[vh]; y++) { 
+				for(int x = 0; x < col * width + 1;x++) {
+					int idx =  (tmpH + y + 1) * (col * width + 2) + x;
+					if(x % width == 0) 
+						ret[idx] = '|';
+					else if(y == heights[vh] - 1)
+						ret[idx] = '_';			
+				}
 			}
+			tmpH += heights[vh];
 		}
-		
 		return new String(ret);
 	}
 	
@@ -158,16 +204,50 @@ public class Resources {
 					"|________________________________|_______|______________________________|";
 				   //_____________________________________
 			       //____________________________________
+		case TAG_MAP_FOREST:
+			return
+					"  -   -   -  -      _\n" + 
+					" =   -    -   -  -_   |_-=-\n" + 
+					"-0-=__|,  |00__--|   |  _-_\n" + 
+					"      |  .|-- =_ |   |-=\n" + 
+					"____  | . | |  -=|   | | __\n" + 
+					".',\"} | __|_|_   |   | |{ (\n" + 
+					"_____}|{______}__|___|_{)___";
 			
 		case MAGICIAN:
 			return
-					"         /\\         \n" + 
-					"        /  \\        \n" + 
-					"       /    \\       \n" + 
-					"   .../      \\...   \n" + 
-					".''  /        \\  ``.\n" + 
-					"'...            ...'\n" + 
-					"    '''''''''''' ";
+					"        /\\        \n" + 
+					"       /  \\       \n" + 
+					"   .../    \\...   \n" + 
+					".''  /      \\  ``.\n" + 
+					"'...          ...'\n" + 
+					"    ''''''''''";
+		case ARCHER:
+			return 
+					"       ___---\n" + 
+					"    .---    /\n" + 
+					"  .       /\n" + 
+					"  |     /\n" + 
+					" |    /\n" + 
+					"|   /\n" + 
+					"| /";
+		case TREASURE_HUNTER:
+			return
+					"       __\n" + 
+					" _->--/  \\--<-_\n" + 
+					"[_____ __ _____]\n" + 
+					"|])   |..|   ([|\n" + 
+					"|])    --    ([|\n" + 
+					"|______________|";
+		case WARRIOR:
+			return 
+					" _---------_\n" + 
+					"|  _______  |\n" + 
+					"| |__   __| |\n" + 
+					"|   |   |   |\n" + 
+					"|    | |    |\n" + 
+					" |___| |___|";
+			
 			
 		default:
 			return "";

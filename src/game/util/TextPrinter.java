@@ -6,24 +6,24 @@ import game.resource.Resources;
 public class TextPrinter {
 	
 	public static final int FRAME_IMAGE_WIDTH = 23;
-	public static final int FRAME_IMAGE_HEIGHT = 10;
+	public static final int FRAME_IMAGE_HEIGHT = 9;
 
 	public static void printWithTag(RenderEnum tag) {
 		
 		System.out.println(Resources.getAscii(tag));
 	}
 	
-	public static void printFrame(int col, int row, int width, int height, boolean numeric, RenderEnum... args) {
+	public static void printFrame(int col, int row, int width, boolean numeric, RenderEnum... args) {
 		String[] strs = new String[args.length];
 		for(int i = 0; i < args.length; i++) 
 			strs[i] = Resources.getAscii(args[i]);
 		
-		System.out.println(Resources.makeFrame(col, row, width, height, numeric, strs));
+		System.out.println(Resources.makeFrame(col, row, width, numeric, strs));
 	}	
 	
-	public static void printFrame(int col, int row, int width, int height, boolean numeric, String... args) {
+	public static void printFrame(int col, int row, int width, boolean numeric, String... args) {
 		
-		System.out.println(Resources.makeFrame(col, row, width, height, numeric, args));
+		System.out.println(Resources.makeFrame(col, row, width, numeric, args));
 	}
 	
 	public static void print(String... args) {

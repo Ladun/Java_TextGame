@@ -2,11 +2,15 @@ package game.resource;
 
 
 public enum RenderEnum {
+	MAGICIAN,
+	ARCHER,
+	WARRIOR,
+	TREASURE_HUNTER,
 	TAG_START_MAIN, 
 	TAG_START_SELECT,
 	TAG_SHOP,
 	TAG_MAIN,
 	TAG_TAVERN,
-	MAGICIAN,
+	TAG_MAP_FOREST,
 	NONE
 }
