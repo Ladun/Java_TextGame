@@ -35,7 +35,7 @@ public class AdventureSelectScene extends AbstractScene{
 		difficultyFrame = new GridFrame(1, 3, 10, true);
 		difficultyFrame.setting("EASY", "NORMAL", "HARD");
 		mapInfos.add(new MapInfo(
-				new String[] {"2. 동쪽 숲","3. 서쪽 숲","4. 남쪽 숲","5. 북쪽 숲"},
+				new String[] {"East Forest","West Forest","South Forest","North Forest"},
 				new RenderEnum[] {RenderEnum.TAG_MAP_FOREST, RenderEnum.TAG_MAP_FOREST, RenderEnum.TAG_MAP_FOREST, RenderEnum.TAG_MAP_FOREST}));
 	}
 	
@@ -45,8 +45,11 @@ public class AdventureSelectScene extends AbstractScene{
 		switch(currentPos) {
 		case 0:{
 			mapInfoFrame.setting(mapInfos.get(mapIdx).types);
+			for(int i = 0; i < 4; i++) 
+				mapInfoFrame.setGridTag(0, i, mapInfos.get(mapIdx).names[i]);
+
 			TextPrinter.printFrame(mapInfoFrame);
-			TextPrinter.print("0. 메뉴", "1. 뒤로가기", mapInfos.get(mapIdx).names[0], mapInfos.get(mapIdx).names[1], mapInfos.get(mapIdx).names[2], mapInfos.get(mapIdx).names[3], "6. 다음", "7. 이전");
+			TextPrinter.print("메뉴", "뒤로가기", mapInfos.get(mapIdx).names[0], mapInfos.get(mapIdx).names[1], mapInfos.get(mapIdx).names[2], mapInfos.get(mapIdx).names[3], "다음", "이전");
 			int	in = gm.getInput().getInt(0, 7);		
 			
 			switch(in) {
@@ -71,7 +74,7 @@ public class AdventureSelectScene extends AbstractScene{
 		}
 		case 1:{
 			TextPrinter.printFrame(difficultyFrame);
-			TextPrinter.print("0. 메뉴", "1. 뒤로가기", "2. EASY", "3. NORMAL", "4. HARD");
+			TextPrinter.print("메뉴", "뒤로가기", "EASY", "NORMAL", "HARD");
 			int	in = gm.getInput().getInt(0, 4);	
 			
 			int difficulty = 0;

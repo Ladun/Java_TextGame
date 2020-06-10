@@ -19,10 +19,13 @@ public class TextPrinter {
 	
 	public static void print(String... args) {
 
+		int i = 0;
 		System.out.println("========================================================================="); // = 73°³
 		for(String str : args) {
-			if(str != null)
-				System.out.println(str);
+			if(str != null) {
+				System.out.println(i + ". "+ str);
+				i++;
+			}
 		}
 		System.out.println("=========================================================================");
 	}

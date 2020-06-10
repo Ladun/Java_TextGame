@@ -35,11 +35,11 @@ public class GameManager{
 	
 	public boolean init() {
 		TextPrinter.printWithTag(RenderEnum.TAG_START_MAIN);
-		TextPrinter.print("1. 게임 시작", "2. 게임 종료");
+		TextPrinter.print("게임 시작", "게임 종료");
 		
-		int in = input.getInt(1, 2);		
+		int in = input.getInt(0, 1);		
 		
-		if(in == 1) {
+		if(in == 0) {
 			TextPrinter.printWithTag(RenderEnum.TAG_START_SELECT);
 
 			String[] saveFiles = new String[10];
@@ -48,12 +48,12 @@ public class GameManager{
 
 			//
 			if(curSaveFileCount < 10) {
-				saveFiles[curSaveFileCount] = (curSaveFileCount + 1) + ". New";
+				saveFiles[curSaveFileCount] = "New";
 			}
  
 			TextPrinter.print(saveFiles);
-			in = input.getInt(1, curSaveFileCount + 1);
-			if(in== curSaveFileCount + 1) {
+			in = input.getInt(0, curSaveFileCount);
+			if(in== curSaveFileCount) {
 				MakePlayInfo();
 			}
 			else {

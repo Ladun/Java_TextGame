@@ -37,8 +37,8 @@ public class GridFrame {
 		
 		if (setArray(strs)) {
 			clear();
-			makeFrame();
 		} 
+		makeFrame();
 		setStrings(strs);
 	}
 
@@ -167,21 +167,21 @@ public class GridFrame {
 		}
 	}
 	
-	protected void setGridTag(int r, int c, String str) {
+	public void setGridTag(int r, int c, String str) {
 		int xOffset = (width - str.length()) / 2;
-		if(xOffset < 0)
+		if(xOffset <= 0)
 			return;
 		
 		int tmpH = 0;
 		for(int i = 0; i < r; i++)
 			tmpH += heights[i];
 		
-		int _r = (tmpH + r + 1) * (col * width + 2);
+		int _r = (tmpH + heights[r]) * (col * width + 2) + c * width + xOffset + 1;
 		for(int i = 0; i < str.length(); i++) 
-			ret[_r + i + xOffset] = str.charAt(i);
+			ret[_r + i] = str.charAt(i);
 		
 	}
-	
+		
 	protected void makeFrame() {
 
 		// Frame Æ² »ý¼º
@@ -203,4 +203,23 @@ public class GridFrame {
 		}
 	}
 
+	
+	public int getCol() {
+		return col;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public boolean isNumeric() {
+		return numeric;
+	}
+
+	
+	
 }

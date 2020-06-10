@@ -13,7 +13,7 @@ public class MainScene extends AbstractScene {
 		// TODO Auto-generated method stub
 
 		TextPrinter.printWithTag(RenderEnum.TAG_MAIN);
-		TextPrinter.print("0. 메뉴", "1. 모험 가기","2. 상점 가기","3. 선술집 가기");
+		TextPrinter.print("메뉴", "모험 가기","상점 가기","선술집 가기");
 		int	in = gm.getInput().getInt(0, 3);		
 		
 		switch(in) {

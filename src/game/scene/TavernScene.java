@@ -70,7 +70,7 @@ public class TavernScene extends AbstractScene{
 		
 		switch(currentPos) {
 		case 0:{
-			TextPrinter.print("0. 메뉴", "1. 나가기", "2. ", "3. 주변 용병 둘러보기");
+			TextPrinter.print("메뉴", "나가기", " ", "주변 용병 둘러보기");
 			int in = gm.getInput().getInt(0, 3);
 
 			switch(in){
@@ -92,22 +92,28 @@ public class TavernScene extends AbstractScene{
 		case 3:{
 			RenderEnum[] strs = new RenderEnum[MAX_ADVENTURER];
 			for(int i = 0; i < MAX_ADVENTURER; i ++) {
-				if(adventurers[i] != null) 
+				if(adventurers[i] != null) {
 					strs[i] = adventurers[i].getType();
+				}
 				else
 					strs[i] = RenderEnum.NONE;
 			}			
+			
 			adventurerListFrame.setting(strs);
+			for(int r = 0, i = 0; r < adventurerListFrame.getRow(); r++)
+				for(int c = 0; c < adventurerListFrame.getCol();c++,  i++)
+					if(adventurers[i] != null)
+						adventurerListFrame.setGridTag(r, c, adventurers[i].getName());
 			TextPrinter.printFrame(adventurerListFrame);
 			
 			String[] menus = new String[MAX_ADVENTURER + 2];
-			menus[0] = "0. 메뉴";
-			menus[1] = "1. 뒤로 가기";
+			menus[0] = "메뉴";
+			menus[1] = "뒤로 가기";
 			for(int i = 0; i < MAX_ADVENTURER; i ++) {
 				if(adventurers[i] != null) 
-					menus[i + 2] = (i + 2) + ". " + adventurers[i].getName() + "(" + 100 + "G)";
+					menus[i + 2] = adventurers[i].getName() + "(" + 100 + "G)";
 				else
-					menus[i + 2] = (i + 2) + ". ";
+					menus[i + 2] = "";
 			}
 			TextPrinter.print(menus);
 			
@@ -138,7 +144,7 @@ public class TavernScene extends AbstractScene{
 			adventurerShowFrame.setting(showTarget.getInfo());
 			TextPrinter.printFrame(adventurerShowFrame);
 			
-			TextPrinter.print("0. 메뉴", "1. 뒤로 가기", "2. 고용");
+			TextPrinter.print("메뉴", "뒤로 가기", "고용");
 			int in = gm.getInput().getInt(0, 3);
 
 			switch(in){
