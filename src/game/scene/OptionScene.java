@@ -1,12 +1,20 @@
 package game.scene;
 
 import game.GameManager;
-import game.object.Adventurer;
+import game.resource.GridFrame;
 import game.util.TextPrinter;
 
 public class OptionScene extends AbstractScene {
 
 
+	private GridFrame adventurerStateFrame;
+	private GridFrame stateFrame;
+	
+	public OptionScene() {
+		adventurerStateFrame = new GridFrame(1, 3, 19, false);
+		stateFrame = new GridFrame(1, 1, 16, false);
+	}
+	
 	@Override
 	public void show(GameManager gm) {
 
@@ -21,11 +29,11 @@ public class OptionScene extends AbstractScene {
 				gm.getSceneManager().setScene(gm.getSceneManager().getPreviousScene());
 				break;
 			case 1:
+				adventurerStateFrame.setting(gm.getPlayInfo().getAdventurerInfo());
+				TextPrinter.printFrame(adventurerStateFrame);
+				stateFrame.setting("Money: ");
+				TextPrinter.printFrame(stateFrame);
 				
-				TextPrinter.printFrame(3, 1, 19, false,
-						gm.getPlayInfo().getAdventurerInfo());
-				TextPrinter.printFrame(1, 1, 16, false,
-						"Money: ");
 				break;
 			case 2:
 				gm.setRunning(false);

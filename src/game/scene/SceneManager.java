@@ -3,6 +3,7 @@ package game.scene;
 import java.util.HashMap;
 import java.util.Map;
 
+import game.GameManager;
 import game.scene.adventure.AdventureScene;
 
 public class SceneManager {

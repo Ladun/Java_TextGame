@@ -1,46 +1,44 @@
 package game.util;
 
+import game.resource.GridFrame;
 import game.resource.RenderEnum;
 import game.resource.Resources;
 
 public class TextPrinter {
 	
-	public static final int FRAME_IMAGE_WIDTH = 23;
-	public static final int FRAME_IMAGE_HEIGHT = 9;
 
 	public static void printWithTag(RenderEnum tag) {
 		
 		System.out.println(Resources.getAscii(tag));
 	}
 	
-	public static void printFrame(int col, int row, int width, boolean numeric, RenderEnum... args) {
-		String[] strs = new String[args.length];
-		for(int i = 0; i < args.length; i++) 
-			strs[i] = Resources.getAscii(args[i]);
+	public static void printFrame(GridFrame frame) {
 		
-		System.out.println(Resources.makeFrame(col, row, width, numeric, strs));
+		System.out.println(frame.getString());
 	}	
 	
-	public static void printFrame(int col, int row, int width, boolean numeric, String... args) {
-		
-		System.out.println(Resources.makeFrame(col, row, width, numeric, args));
-	}
-	
 	public static void print(String... args) {
-		
-		System.out.println(Resources.getMenus(args));
+
+		System.out.println("========================================================================="); // = 73°³
+		for(String str : args) {
+			if(str != null)
+				System.out.println(str);
+		}
+		System.out.println("=========================================================================");
 	}
 
 	public static void printWithDelay(int delay, String... args) {
 
 		System.out.println("=========================================================================");
-		for(int i = 0;i < args.length;i++) {
-			System.out.println(args[i]);
-			try {
-				Thread.sleep(delay);
-			} catch (InterruptedException e) {
+		for(String str : args) {
+			if(str != null) {
+				System.out.println(str);
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
 
-				e.printStackTrace();
+					e.printStackTrace();
+				}
 			}
 		}
 		System.out.println("=========================================================================");

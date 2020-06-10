@@ -1,9 +1,8 @@
 package game.scene;
 
-import java.util.ArrayList;
-
 import game.GameManager;
 import game.object.Adventurer;
+import game.resource.GridFrame;
 import game.resource.RenderEnum;
 import game.scene.SceneManager.SceneType;
 import game.util.TextPrinter;
@@ -17,7 +16,13 @@ public class TavernScene extends AbstractScene{
 	
 	private Adventurer showTarget;
 	
+	private GridFrame adventurerListFrame;
+	private GridFrame adventurerShowFrame;
+	
 	public TavernScene() {
+		adventurerListFrame = new GridFrame(2, MAX_ADVENTURER / 2, GridFrame.IMAGE_WIDTH, true);
+		adventurerShowFrame = new GridFrame(1, 1, 16, false);
+		
 		adventurers = new Adventurer[MAX_ADVENTURER];
 		leftDays = new int[MAX_ADVENTURER];
 		
@@ -92,7 +97,8 @@ public class TavernScene extends AbstractScene{
 				else
 					strs[i] = RenderEnum.NONE;
 			}			
-			TextPrinter.printFrame(MAX_ADVENTURER / 2, 2, TextPrinter.FRAME_IMAGE_WIDTH, true, strs);
+			adventurerListFrame.setting(strs);
+			TextPrinter.printFrame(adventurerListFrame);
 			
 			String[] menus = new String[MAX_ADVENTURER + 2];
 			menus[0] = "0. 메뉴";
@@ -129,8 +135,8 @@ public class TavernScene extends AbstractScene{
 		case 4:{
 			
 			//TODO: makeFrame 함수를 수정해서 원하는 크기의 사각형을 만들 수 있게
-			TextPrinter.printFrame(1, 1, 16, false,
-					showTarget.getInfo());
+			adventurerShowFrame.setting(showTarget.getInfo());
+			TextPrinter.printFrame(adventurerShowFrame);
 			
 			TextPrinter.print("0. 메뉴", "1. 뒤로 가기", "2. 고용");
 			int in = gm.getInput().getInt(0, 3);
