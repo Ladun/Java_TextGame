@@ -12,7 +12,7 @@ public class OptionScene extends AbstractScene {
 	
 	public OptionScene() {
 		adventurerStateFrame = new GridFrame(1, 3, 19, false);
-		stateFrame = new GridFrame(1, 1, 16, false);
+		stateFrame = new GridFrame(1, 1, 57, false);
 	}
 	
 	@Override
@@ -31,7 +31,9 @@ public class OptionScene extends AbstractScene {
 			case 1:
 				adventurerStateFrame.setting(gm.getPlayInfo().getAdventurerInfo());
 				TextPrinter.printFrame(adventurerStateFrame);
-				stateFrame.setting("Money: ");
+				stateFrame.setting(
+						"Time: "+ gm.getDays() + "¿œ " + gm.getTimes() + "Ω√\n" + 
+						"Money: ");
 				TextPrinter.printFrame(stateFrame);
 				
 				break;

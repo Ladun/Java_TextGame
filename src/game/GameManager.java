@@ -79,11 +79,11 @@ public class GameManager{
 			
 			sceneManager.getScene().show(this);
 			
-			if(times >= 24)
+			while(times >= 24)
 			{
 				sceneManager.update();
 				days++;
-				times = 0;
+				times -= 24;
 			}
 		}		
 	}
@@ -140,7 +140,18 @@ public class GameManager{
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
+	
+	public int getDays() {
+		return days;
+	}
+	
+	public int getTimes() {
+		return times;
+	}
 
+	public void addTimes(int time) {
+		times += time;
+	}
 	//------------------------------------------------------------
 	public static void main(String[] args) {	
 		GameManager gm = new GameManager();

@@ -99,7 +99,7 @@ public class AdventureSelectScene extends AbstractScene{
 			default:
 				currentPos = 1;
 			}
-			gm.getSceneManager().<AdventureScene>getScene(SceneType.ADVENTURE).setMapIdx(mapIdx * 4 + selectOffset);
+			gm.getSceneManager().<AdventureScene>getScene(SceneType.ADVENTURE).setting(gm, mapIdx * 4 + selectOffset, difficulty);
 			gm.getSceneManager().setScene(SceneType.ADVENTURE);
 			break;
 		}
