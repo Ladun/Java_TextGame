@@ -30,9 +30,11 @@ public class Input {
 	public String getString(int maxLength) {
 		System.out.print(">>");
 		String st ;
-		do {
+		st = sc.next();
+		while(st.length() > maxLength) {
+			System.out.print("Wrong Input. Re >>");
 			st = sc.next();
-		}while(st.length() > maxLength);
+		}
 		
 		return st;
 	}

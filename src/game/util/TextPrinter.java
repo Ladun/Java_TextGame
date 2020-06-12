@@ -17,7 +17,7 @@ public class TextPrinter {
 		System.out.println(frame.getString());
 	}	
 	
-	public static void print(String... args) {
+	public static int print(String... args) {
 
 		int i = 0;
 		System.out.println("========================================================================="); // = 73°³
@@ -28,6 +28,7 @@ public class TextPrinter {
 			}
 		}
 		System.out.println("=========================================================================");
+		return i;
 	}
 
 	public static void printWithDelay(int delay, String... args) {

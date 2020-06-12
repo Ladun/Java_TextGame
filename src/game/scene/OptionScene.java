@@ -2,6 +2,7 @@ package game.scene;
 
 import game.GameManager;
 import game.resource.GridFrame;
+import game.resource.RenderEnum;
 import game.util.TextPrinter;
 
 public class OptionScene extends AbstractScene {
@@ -11,17 +12,20 @@ public class OptionScene extends AbstractScene {
 	private GridFrame stateFrame;
 	
 	public OptionScene() {
-		adventurerStateFrame = new GridFrame(1, 3, 19, false);
+		adventurerStateFrame = new GridFrame(1, 3, 23, false);
 		stateFrame = new GridFrame(1, 1, 57, false);
 	}
-	
+	@Override
+	public void clear() {
+		
+	}
 	@Override
 	public void show(GameManager gm) {
 
 
 		switch(currentPos){
 		case 0:{
-			TextPrinter.print("뒤로가기", "정보", "게임 종료");
+			TextPrinter.print("뒤로가기", "정보", "인벤토리", "게임 종료");
 
 			int in = gm.getInput().getInt(0, 2);
 			switch(in) {
@@ -32,12 +36,15 @@ public class OptionScene extends AbstractScene {
 				adventurerStateFrame.setting(gm.getPlayInfo().getAdventurerInfo());
 				TextPrinter.printFrame(adventurerStateFrame);
 				stateFrame.setting(
-						"Time: "+ gm.getDays() + "일 " + gm.getTimes() + "시\n" + 
-						"Money: ");
+						"Time: "+ gm.getDays() + "days " + gm.getTimes() + ":XX\n" + 
+						"Money: " + gm.getPlayInfo().getMoney() + "G");
 				TextPrinter.printFrame(stateFrame);
 				
 				break;
 			case 2:
+				TextPrinter.printFrame(gm.getPlayInfo().getInv().getGridFrame());
+				break;
+			case 3:
 				gm.setRunning(false);
 				break;
 			}

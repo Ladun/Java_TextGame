@@ -35,9 +35,8 @@ public class GridFrame {
 		if (strs.length != col * row)
 			return;
 		
-		if (setArray(strs)) {
-			clear();
-		} 
+		setArray(strs);
+		clear();
 		makeFrame();
 		setStrings(strs);
 	}
@@ -133,11 +132,18 @@ public class GridFrame {
 		}
 
 		// 격자의 좌상단에서 얼마나 떨어질 건지
-		int wOffset = (width - rw) / 2;
+		int wOffset = (width - rw) / 2, wMax;
 		int hOffset = (heights[r] - rh) / 2;
-		if (wOffset < 0 || hOffset < 0)
+		wMax = rw;
+		if (wOffset < 0){
+			wOffset = 0;
+			wMax = width - 3;
+		}
+		if (hOffset < 0) 
 			return;
-
+		
+		
+		
 		// 격자에 숫자 붙이는 거
 		if (numeric) {
 			int number = (r * col + c + 2);
@@ -154,8 +160,14 @@ public class GridFrame {
 			}
 		}
 		int rIdx = 0;
-		for (int h = 0; h < rh; h++) {
+		for (int h = 0; h < rh; h++) {					
 			for (int w = 0; w < rw + 1; w++) {
+				if(w >wMax) {
+					ret[(curH + h + 1 + hOffset) * (col * width + 2) + c * width + w + 1 + wOffset] = '.';
+					ret[(curH + h + 1 + hOffset) * (col * width + 2) + c * width + w + 2 + wOffset] = '.';
+					ret[(curH + h + 1 + hOffset) * (col * width + 2) + c * width + w + 3 + wOffset] = '.';
+				}
+				
 				if (rIdx >= s.length())
 					break;
 				char _ch = s.charAt(rIdx++);
@@ -164,6 +176,7 @@ public class GridFrame {
 
 				ret[(curH + h + 1 + hOffset) * (col * width + 2) + c * width + w + 1 + wOffset] = _ch;
 			}
+			
 		}
 	}
 	

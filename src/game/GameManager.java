@@ -17,19 +17,21 @@ public class GameManager{
 	
 	private PlayInfo playInfo;
 	private SceneManager sceneManager;	
+	private ObjectManager objectManager;	
+	private ItemDatabase itemDatabase;
 	
 	private int days = 0;
 	private int times = 0; // 0 ~ 23;
 	
-	private boolean running = false;
-	
-	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
+	private boolean running = true;
 	
 	public GameManager() {
 
 		input = new Input(this);	
 		sb = new StringBuilder();
 		sceneManager = new SceneManager();
+		objectManager = new ObjectManager();
+		itemDatabase = new ItemDatabase();
 	}
 
 	
@@ -74,7 +76,6 @@ public class GameManager{
 
 	public void update() {
 		
-		running = true;
 		while(running) {
 			
 			sceneManager.getScene().show(this);
@@ -108,7 +109,7 @@ public class GameManager{
 			player.setRandomly();
 			TextPrinter.printWithDelay(50, 
 					"Name: " + str,
-					player.getStat(),
+					player.getStateInfo().getStat(),
 					"\n다시 설정하시겠습니까?\n1. 예\n2. 아니요");	
 								
 			in = input.getInt(1, 2);
@@ -130,6 +131,14 @@ public class GameManager{
 
 	public SceneManager getSceneManager() {
 		return sceneManager;
+	}
+	
+	public ObjectManager getObjectManager() {
+		return objectManager;
+	}
+	
+	public ItemDatabase getItemDatabse() {
+		return itemDatabase;
 	}
 
 	public PlayInfo getPlayInfo() {

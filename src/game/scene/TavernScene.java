@@ -2,6 +2,7 @@ package game.scene;
 
 import game.GameManager;
 import game.object.Adventurer;
+import game.object.StateInfo;
 import game.resource.GridFrame;
 import game.resource.RenderEnum;
 import game.scene.SceneManager.SceneType;
@@ -12,22 +13,29 @@ public class TavernScene extends AbstractScene{
 	private static final int MAX_ADVENTURER = 8;
 	
 	private Adventurer[] adventurers;
+	private int[] prices;
 	private int[] leftDays; // 선술집에 남아있을 기간
 	
-	private Adventurer showTarget;
+	private int showTargetIdx;
 	
 	private GridFrame adventurerListFrame;
 	private GridFrame adventurerShowFrame;
 	
 	public TavernScene() {
 		adventurerListFrame = new GridFrame(2, MAX_ADVENTURER / 2, GridFrame.IMAGE_WIDTH, true);
-		adventurerShowFrame = new GridFrame(1, 1, 16, false);
+		adventurerShowFrame = new GridFrame(1, 1, 23, false);
 		
 		adventurers = new Adventurer[MAX_ADVENTURER];
+		prices = new int[MAX_ADVENTURER];
 		leftDays = new int[MAX_ADVENTURER];
 		
 		for(int i = 0; i < 4;i++) {
-			adventurers[i] = new Adventurer(Adventurer.makeName());
+			adventurers[i] = new Adventurer(StateInfo.makeName());
+			prices[i] =    (adventurers[i].getStateInfo().getStrength() + 
+							adventurers[i].getStateInfo().getVitality() +
+							adventurers[i].getStateInfo().getIntellect() +
+							adventurers[i].getStateInfo().getAgility() +
+							adventurers[i].getStateInfo().getDexterity()) / 2;
 			leftDays[i] = (int)(Math.random() * 10) + 1;
 		}
 	}
@@ -55,7 +63,12 @@ public class TavernScene extends AbstractScene{
 		int addAdventurer = (int)(Math.random() * left) + 1;
 		for(int i = 0; i < MAX_ADVENTURER;i++) {
 			if(adventurers[i] == null) {
-				adventurers[i] = new Adventurer(Adventurer.makeName());
+				adventurers[i] = new Adventurer(StateInfo.makeName());
+				prices[i] =    (adventurers[i].getStateInfo().getStrength() + 
+								adventurers[i].getStateInfo().getVitality() +
+								adventurers[i].getStateInfo().getIntellect() +
+								adventurers[i].getStateInfo().getAgility() +
+								adventurers[i].getStateInfo().getDexterity()) / 2;
 				leftDays[i] = (int)(Math.random() * 10) + 1;
 				addAdventurer--;	
 				if(addAdventurer <= 0)
@@ -63,14 +76,20 @@ public class TavernScene extends AbstractScene{
 			}
 		}		
 	}
-
+	
+	@Override
+	public void clear() {
+		
+	}
+	
 	@Override
 	public void show(GameManager gm) {
 		
 		
 		switch(currentPos) {
 		case 0:{
-			TextPrinter.print("메뉴", "나가기", " ", "주변 용병 둘러보기");
+			TextPrinter.printWithTag(RenderEnum.TAG_TAVERN);
+			TextPrinter.print("메뉴", "나가기", "술 사기", "주변 용병 둘러보기");
 			int in = gm.getInput().getInt(0, 3);
 
 			switch(in){
@@ -103,7 +122,7 @@ public class TavernScene extends AbstractScene{
 			for(int r = 0, i = 0; r < adventurerListFrame.getRow(); r++)
 				for(int c = 0; c < adventurerListFrame.getCol();c++,  i++)
 					if(adventurers[i] != null)
-						adventurerListFrame.setGridTag(r, c, adventurers[i].getName());
+						adventurerListFrame.setGridTag(r, c, adventurers[i].getStateInfo().getName());
 			TextPrinter.printFrame(adventurerListFrame);
 			
 			String[] menus = new String[MAX_ADVENTURER + 2];
@@ -111,7 +130,7 @@ public class TavernScene extends AbstractScene{
 			menus[1] = "뒤로 가기";
 			for(int i = 0; i < MAX_ADVENTURER; i ++) {
 				if(adventurers[i] != null) 
-					menus[i + 2] = adventurers[i].getName() + "(" + 100 + "G)";
+					menus[i + 2] = adventurers[i].getStateInfo().getName() + "(" + prices[i] + "G)";
 				else
 					menus[i + 2] = "";
 			}
@@ -132,20 +151,21 @@ public class TavernScene extends AbstractScene{
 				}
 				else {
 					currentPos = 4;
-					showTarget = adventurers[in - 2];
+					showTargetIdx = in - 2;
 				}
 				
 			}
 			break;
 		}
 		case 4:{
+			if (adventurers[showTargetIdx] == null)
+				currentPos = 3;
 			
-			//TODO: makeFrame 함수를 수정해서 원하는 크기의 사각형을 만들 수 있게
-			adventurerShowFrame.setting(showTarget.getInfo());
+			adventurerShowFrame.setting(adventurers[showTargetIdx].getInfo());
 			TextPrinter.printFrame(adventurerShowFrame);
 			
-			TextPrinter.print("메뉴", "뒤로 가기", "고용");
-			int in = gm.getInput().getInt(0, 3);
+			TextPrinter.print("메뉴", "뒤로 가기", "고용(" + prices[showTargetIdx] + "G)");
+			int in = gm.getInput().getInt(0, 2);
 
 			switch(in){
 			case 0:
@@ -155,8 +175,19 @@ public class TavernScene extends AbstractScene{
 				currentPos = 3;
 				break;
 			case 2:
+				int idx = gm.getPlayInfo().getEmptyAdventurerSpace();
 				
-				// TODO: 용병 고용 구현하기
+				if(idx == -1)
+				{
+					TextPrinter.printWithDelay(500, "이미 용병이 두 명 있습니다.");
+					break;
+				}
+				if(prices[showTargetIdx] <= gm.getPlayInfo().getMoney()) {
+					gm.getPlayInfo().useMoney(prices[showTargetIdx]);
+					gm.getPlayInfo().setTeamMember(idx, adventurers[showTargetIdx]);
+					adventurers[showTargetIdx] = null;
+				}
+				currentPos = 3;
 				
 				break;			
 			}

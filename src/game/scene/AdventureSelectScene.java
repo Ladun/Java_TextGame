@@ -38,7 +38,11 @@ public class AdventureSelectScene extends AbstractScene{
 				new String[] {"East Forest","West Forest","South Forest","North Forest"},
 				new RenderEnum[] {RenderEnum.TAG_MAP_FOREST, RenderEnum.TAG_MAP_FOREST, RenderEnum.TAG_MAP_FOREST, RenderEnum.TAG_MAP_FOREST}));
 	}
-	
+	@Override
+	public void clear() {
+		mapIdx = 0;
+		selectOffset = 0;
+	}
 	@Override
 	public void show(GameManager gm) {
 
@@ -99,8 +103,10 @@ public class AdventureSelectScene extends AbstractScene{
 			default:
 				currentPos = 1;
 			}
-			gm.getSceneManager().<AdventureScene>getScene(SceneType.ADVENTURE).setting(gm, mapIdx * 4 + selectOffset, difficulty);
-			gm.getSceneManager().setScene(SceneType.ADVENTURE);
+			if(in >= 2) {
+				gm.getSceneManager().<AdventureScene>getScene(SceneType.ADVENTURE).setting(gm, mapIdx * 4 + selectOffset, difficulty);
+				gm.getSceneManager().setScene(SceneType.ADVENTURE);
+			}
 			break;
 		}
 		}

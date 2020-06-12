@@ -6,7 +6,10 @@ import game.scene.SceneManager.SceneType;
 import game.util.TextPrinter;
 
 public class MainScene extends AbstractScene {
-
+	@Override
+	public void clear() {
+		
+	}
 
 	@Override
 	public void show(GameManager gm) {

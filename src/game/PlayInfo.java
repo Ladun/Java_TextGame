@@ -17,6 +17,7 @@ public class PlayInfo {
 		this.player = player;
 		team_members = new Adventurer[2];
 		inv = new Inventory();
+		money = 300;
 	}
 	
 	public PlayInfo(String saveFile) {
@@ -30,10 +31,35 @@ public class PlayInfo {
 				team_members[1] == null? "":team_members[1].getInfo()				
 		};
 	}
+	public int getEmptyAdventurerSpace() {
+		for(int i = 0;i < 2; i++) {
+			if(team_members[i] == null)
+				return i;
+		}
+		return -1;
+	}
+	
+	public Inventory getInv() {
+		return inv;
+	}
 	
 	public Adventurer getPlayer() {		
 		return player;
 	}
+	
+
+	public void useMoney(int amount) {
+		money -= amount;
+	}
+	
+	public int getMoney() {
+		return money;
+	}
+	
+	public void setTeamMember(int idx, Adventurer adv) {
+		team_members[idx] = adv;
+	}
+	
 	public Adventurer getTeamMember(int idx) {
 		if(idx < 0 || idx >= 2)
 			return null;

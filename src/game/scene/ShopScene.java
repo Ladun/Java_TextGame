@@ -1,13 +1,20 @@
 package game.scene;
 
+import java.util.ArrayList;
+
 import game.GameManager;
+import game.item.Item;
 import game.resource.RenderEnum;
 import game.scene.SceneManager.SceneType;
 import game.util.TextPrinter;
 
 public class ShopScene  extends AbstractScene{
 
-
+	public ArrayList<Item> items = new ArrayList<>();	
+	@Override
+	public void clear() {
+		currentPos = 0;
+	}
 	@Override
 	public void show(GameManager gm) {
 		// TODO Auto-generated method stub
@@ -26,8 +33,11 @@ public class ShopScene  extends AbstractScene{
 					gm.getSceneManager().setScene(SceneType.MAIN);
 					break;
 				case 2:
+					currentPos = 1;
+					
 					break;
 				case 3:
+					currentPos = 2;
 					break;
 			}
 			break;

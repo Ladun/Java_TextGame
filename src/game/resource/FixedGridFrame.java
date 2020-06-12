@@ -21,6 +21,8 @@ public class FixedGridFrame extends GridFrame {
 
 	@Override
 	public void setting(String... strs) {
+		clear();
+		makeFrame();
 		setStrings(strs);
 	}
 

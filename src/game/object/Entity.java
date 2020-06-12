@@ -1,85 +1,52 @@
 package game.object;
 
-public abstract class Entity extends GameObject{
-	
+import game.resource.RenderEnum;
 
-	// 힘, 지능, 민첩 등 등
-	protected int strength;// 물리적인 공격력 관련, 무게가 있는 물체 드는데 관련
-	protected int vitality;// 생명력 관련
-	protected int intellect; // 마법적인 공격력 관련
-	protected int agility; // 회피 관련
-	protected int dexterity; // 활, 단검 등 무기와 관련
-	
+public abstract class Entity extends GameObject {
+
+	protected StateInfo info;
+	protected RenderEnum type;
+
 	protected int maxHealth;
 	protected int health;
 	protected int maxStress;
 	protected int stress;
-	
+
 	public Entity() {
+		info = new StateInfo();
 		setRandomly();
+	}
+
+	public Entity(StateInfo info) {
+		this.info = info;
 		confirm();
 	}
 
-	public Entity(int strength, int vitality, int intellect, int agility, int dexterity) {
-		this.strength = strength;
-		this.vitality = vitality;
-		this.intellect = intellect;
-		this.agility = agility;
-		this.dexterity = dexterity;
+	public void setRandomly() {
+		info.setRandomly();
 		confirm();
 	}
-	
+
 	protected void confirm() {
 
-		maxHealth = (int)(strength * 1.5f);
+		active =true;
+		maxHealth = (int) (info.getVitality() * 1.5f) + 10;
 		health = maxHealth;
-		
-		maxStress = intellect;
-		stress = 0;	
+
+		maxStress = info.getIntellect() * 2;
+		stress = 0;
 	}
-	
-	public void setRandomly() {
-		strength 	= (int)(Math.random() * 100);
-		vitality 	= (int)(Math.random() * 100);
-		intellect 	= (int)(Math.random() * 100);
-		agility 	= (int)(Math.random() * 100);
-		dexterity 	= (int)(Math.random() * 100);
-	}
-	
+
 	public String getInfo() {
-		return 				
-				"HP: " + health + "/" + maxHealth +
-				"\nStress: " + stress + "/" + maxStress + "\n" +
-				getStat();
-	}
-
-	public String getStat() {
 		return 
-				"Strength: " + strength +
-				"\nVitality: " + vitality +
-				"\nIntellect: " + intellect + 
-				"\nAgility: " + agility+ 
-				"\nDexterity: " + dexterity;
+				"Name: " + info.getName() + "\n" +
+				"HP: " + health + "/" + maxHealth + 
+				"\nStress: " + stress + "/" + maxStress + 
+				"\n" + info.getStat();
 	}
-
-	public int getStrength() {
-		return strength;
-	}
-
-	public int getVitality() {
-		return vitality;
-	}
-
-	public int getIntellect() {
-		return intellect;
-	}
-
-	public int getAgility() {
-		return agility;
-	}
-
-	public int getDexterity() {
-		return dexterity;
+	
+	public StateInfo getStateInfo() {
+		return info;
 	}
 
 	public int getMaxHealth() {
@@ -97,6 +64,8 @@ public abstract class Entity extends GameObject{
 	public int getStress() {
 		return stress;
 	}
-	
-	
+	public RenderEnum getType() {
+		return type;
+	}
+
 }

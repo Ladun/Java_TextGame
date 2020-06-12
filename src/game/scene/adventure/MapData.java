@@ -1,39 +1,80 @@
 package game.scene.adventure;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
 import game.GameManager;
+import game.item.ItemInfo;
+import game.object.Enemy;
+import game.object.StateInfo;
 
 public class MapData {
+
+	public enum MapType{
+		FOREST
+	}
+	
+	public enum RoomType{
+		EMPTY, BATTLE, TREASURE
+	};
 	
 	public static final int DIFFICULTY_EASY = 6;
 	public static final int DIFFICULTY_NORMAL = 10;
 	public static final int DIFFICULTY_HARD = 14;
+	private static int[] dr = new int[] {0, 0, 1, -1};
+	private static int[] dc = new int[] {1, -1, 0, 0};
 	
-	public class Room {
+	public class Room {		
+		
 		public static final int OPEN_EAST = 1;
 		public static final int OPEN_WEST = 2;
 		public static final int OPEN_SOUTH = 4;
 		public static final int OPEN_NORTH = 8;
 		
 		public int openDir; // 4bit¸¸ »ç¿ë
+		public RoomType type;
+		public boolean detected;
 		
-		public Room() {
+		public Enemy[] enemys;
+		public ItemInfo[] treasures;
+		public int rewardMoney;
+		
+		public void setRoom(GameManager gm,MapData md, Random rand) {
+			detected = false; 
 			
-		}
-		
-		public void setRandomOpen(Random rand) {
 			int east = rand.nextInt(2);
 			int west = rand.nextInt(2) << 1;
 			int south = rand.nextInt(2) << 2;
 			int north = rand.nextInt(2) << 3;
 			
 			openDir = east | west | south | north;
+			
+			double f = rand.nextDouble();
+			if(f < 0.5) 
+				type = RoomType.EMPTY;
+			else if(f < 0.85) {
+				int enemyCount = rand.nextInt(3) + 1;
+				enemys = new Enemy[3];
+				treasures = new ItemInfo[3];
+				
+				
+				ArrayList<StateInfo> list = gm.getObjectManager().getEnemyState(md.type);
+				for(int i = 0; i < enemyCount; i++)
+					enemys[i] = new Enemy(list.get(rand.nextInt(list.size())));
+				type = RoomType.BATTLE;				
+			}
+			else {
+				treasures = new ItemInfo[1];
+				treasures[0] = gm.getItemDatabse().getItemInfo(0);
+				type = RoomType.TREASURE;				
+			}
+			
 		}
 
 	}
+
 	class Info {
 		public int r, c;
 		public int preDir;
@@ -44,36 +85,47 @@ public class MapData {
 		}
 	}
 		
-	private static int[] dr = new int[] {0, 0, 1, -1};
-	private static int[] dc = new int[] {1, -1, 0, 0};
 
 	private Room[][] rooms;
 	private int currentDifficulty ;
 	private int spawnR, spawnC;
 	private int pr, pc;
+	private MapType type;
 	
-	private MapData(int currentDifficulty) {
+	private MapData(MapType type, int currentDifficulty) {
 		this.currentDifficulty = currentDifficulty;
 		rooms = new Room[currentDifficulty / 2][currentDifficulty];
+		this.type = type;
 	}
 	
-	public void move(int dir) {
+	public Room move(int dir) {
 		pr += dr[dir];
-		pc += dc[dir];
+		pc += dc[dir];	
+		
+		return rooms[pr][pc];
+	}
+	
+	public Room getCurrentRoom() {
+		return rooms[pr][pc];
 	}
 	
 	public boolean canMove(int dir) {
 		return (rooms[pr][pc].openDir & (1 << dir)) != 0;
 	}
 	
+	public boolean allIsFound() {
+		for(int r = 0; r < currentDifficulty / 2; r++) {
+			for(int c = 0; c < currentDifficulty; c++) {
+				if(rooms[r][c] != null && !rooms[r][c].detected) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	public String getMapString() {
-		/*
-		 *  _____________
-			|   |   |   |
-			|___|___|___|
-			|   |   |   |
-			|___|___|___|
-		*/
+
 		int stW = currentDifficulty - 1, edW = 0;
 		int stH = -1, edH = 0;
 		for(int r = 0; r < currentDifficulty / 2; r++) {
@@ -140,6 +192,16 @@ public class MapData {
 							ret[(_r + 2) * width + _c] = '|';							
 						}
 					}
+					
+					if(rooms[r][c].detected) {
+						char t = ' ';
+						switch(rooms[r][c].type) {
+							case EMPTY: t = 'E'; break;
+							case BATTLE: t = 'B'; break;
+							case TREASURE: t = 'T'; break;
+						}
+						ret[((r - stH) * 2 + 1) * width + (c - stW) * 4 + 1] = t;						
+					}
 				}
 			}
 		}
@@ -149,8 +211,8 @@ public class MapData {
 		return new String(ret);
 	}
 	
-	public static MapData makeMapData(GameManager gm, int currentDifficulty) {
-		MapData data = new MapData(currentDifficulty);
+	public static MapData makeMapData(GameManager gm,MapType md, int currentDifficulty) {
+		MapData data = new MapData(md, currentDifficulty);
 		Random rand = new Random(gm.getDays());
 		Queue<Info> q = new LinkedList<>();
 		
@@ -163,7 +225,12 @@ public class MapData {
 		while(!q.isEmpty()) {
 			Info info = q.remove();
 			Room room = data.new Room();
-			room.setRandomOpen(rand);
+			room.setRoom(gm, data, rand);
+			
+			if(info.r == data.spawnR && info.c == data.spawnC) {
+				room.type = RoomType.EMPTY;
+				room.detected = true;
+			}
 			
 			if(info.preDir != -1) {
 				int openedDir = info.preDir;

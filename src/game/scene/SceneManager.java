@@ -33,6 +33,7 @@ public class SceneManager {
 	public void setScene(SceneType st) {
 		preScene = currentScene;
 		currentScene = st;
+		scenes.get(st).clear();
 	}
 	
 	public AbstractScene getScene() {
