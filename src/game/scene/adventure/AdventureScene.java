@@ -106,7 +106,7 @@ public class AdventureScene extends AbstractScene{
 			// TODO: 현재는 1턴씩 넘어가면서 하는데, 이거에 각 개체마다 속도를 추가해서 속도가 빠른 개체부터 공격하게
 			Adventurer selectedAdventurer =null;
 			if(selectAdv != -1)
-				selectedAdventurer = selectAdv == 0? gm.getPlayInfo().getPlayer(): gm.getPlayInfo().getTeamMember(0);
+				selectedAdventurer = selectAdv == 0? gm.getPlayInfo().getPlayer(): gm.getPlayInfo().getTeamMember(selectAdv - 1);
 			Enemy selectedEnemy = null;
 			if(selectEnemy != -1)
 				selectedEnemy = currentRoom.enemys[selectEnemy];
@@ -126,7 +126,7 @@ public class AdventureScene extends AbstractScene{
 			fightFrame.setGridTag(0, 1, getAlive(gm.getPlayInfo().getTeamMember(0)));
 			fightFrame.setGridTag(0, 2, getAlive(gm.getPlayInfo().getTeamMember(1)));
 			for(int i = 0; i < 3; i ++)
-				fightFrame.setGridTag(1, 1 + i, getAlive(currentRoom.enemys[i]));
+				fightFrame.setGridTag(2, 1 + i, getAlive(currentRoom.enemys[i]));
 			
 			TextPrinter.printFrame(fightFrame);
 			
@@ -151,7 +151,7 @@ public class AdventureScene extends AbstractScene{
 				else {
 					fightState = 1;
 					if(in >= 2)
-						selectAdv = idx[in - 2];
+						selectAdv = idx[in - 2] + 1;
 					else
 						selectAdv = 0;
 				}
@@ -309,7 +309,6 @@ public class AdventureScene extends AbstractScene{
 	
 	private RenderEnum getType(Entity entity) {
 		if(entity == null) return RenderEnum.NONE;
-		if(!entity.isActive()) return RenderEnum.NONE;
 		return entity.getType();
 	}
 	private String getAlive(Entity entity) {

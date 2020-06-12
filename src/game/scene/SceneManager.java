@@ -9,7 +9,7 @@ import game.scene.adventure.AdventureScene;
 public class SceneManager {
 	
 	public enum SceneType{
-		MAIN, SHOP, ADVENTURE, ADVENTURE_SELETE,TAVERN, OPTION
+		MAIN, SHOP, ADVENTURE, ADVENTURE_SELETE,TAVERN, OPTION, HEALTH
 	}
 	
 	private SceneType currentScene, preScene;
@@ -23,6 +23,7 @@ public class SceneManager {
 		scenes.put(SceneType.ADVENTURE_SELETE, new AdventureSelectScene());
 		scenes.put(SceneType.TAVERN, new TavernScene());
 		scenes.put(SceneType.OPTION, new OptionScene());
+		scenes.put(SceneType.HEALTH, new HealthScene());
 		currentScene = SceneType.MAIN;
 	}
 	

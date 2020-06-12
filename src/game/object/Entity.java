@@ -48,6 +48,10 @@ public abstract class Entity extends GameObject {
 	public StateInfo getStateInfo() {
 		return info;
 	}
+	
+	public void heal() {
+		health = maxHealth;
+	}
 
 	public int getMaxHealth() {
 		return maxHealth;

@@ -16,8 +16,8 @@ public class MainScene extends AbstractScene {
 		// TODO Auto-generated method stub
 
 		TextPrinter.printWithTag(RenderEnum.TAG_MAIN);
-		TextPrinter.print("메뉴", "모험 가기","상점 가기","선술집 가기");
-		int	in = gm.getInput().getInt(0, 3);		
+		int len = TextPrinter.print("메뉴", "모험 가기","상점 가기","선술집 가기", "병원 가기");
+		int	in = gm.getInput().getInt(0, len - 1);		
 		
 		switch(in) {
 		case 0:
@@ -31,6 +31,9 @@ public class MainScene extends AbstractScene {
 			break;
 		case 3:
 			gm.getSceneManager().setScene(SceneType.TAVERN);
+			break;
+		case 4:
+			gm.getSceneManager().setScene(SceneType.HEALTH);
 			break;
 		}
 	}

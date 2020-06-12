@@ -43,9 +43,12 @@ public class ShopScene  extends AbstractScene{
 			break;
 		}
 		case 1:
+			TextPrinter.printWithDelay(500, "미구현");
+			currentPos = 0;
 			break;
 		case 2: 
-			
+			TextPrinter.printWithDelay(500, "미구현");
+			currentPos = 0;
 			break;
 		
 		}		
