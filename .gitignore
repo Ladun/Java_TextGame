@@ -4,6 +4,7 @@
 
 ### Eclipse ###
 .metadata
+*.ser
 bin/
 tmp/
 *.tmp
