@@ -1,6 +1,7 @@
 package game.scene;
 
 import game.GameManager;
+import game.file.SaveData;
 import game.object.Adventurer;
 import game.object.StateInfo;
 import game.resource.GridFrame;
@@ -10,7 +11,7 @@ import game.util.TextPrinter;
 
 public class TavernScene extends AbstractScene{
 	
-	private static final int MAX_ADVENTURER = 8;
+	public static final int MAX_ADVENTURER = 8;
 	
 	private Adventurer[] adventurers;
 	private int[] prices;
@@ -39,8 +40,15 @@ public class TavernScene extends AbstractScene{
 			leftDays[i] = (int)(Math.random() * 10) + 1;
 		}
 	}
-
-
+	
+	public void loadData(SaveData saveData) {
+		for(int i = 0; i < MAX_ADVENTURER;i++) 
+			if(!saveData.getMercenarys()[i].isNull())
+				adventurers[i] = new Adventurer(saveData.getMercenarys()[i]);
+		
+		leftDays = saveData.getMercenarys_leftDays();
+	}
+	
 	public void update() {	
 		
 		//머물 기간이 넘긴 모험가 삭제
@@ -107,6 +115,12 @@ public class TavernScene extends AbstractScene{
 			}
 			
 			break;
+		}
+		case 2:{
+			TextPrinter.printWithDelay(500, "미구현");
+			currentPos = 0;
+			break;
+			
 		}
 		case 3:{
 			RenderEnum[] strs = new RenderEnum[MAX_ADVENTURER];
@@ -195,6 +209,15 @@ public class TavernScene extends AbstractScene{
 		}
 		}
 		
+	}
+	
+
+	public int[] getLeftDays() {
+		return leftDays;
+	}
+	
+	public Adventurer[] getAdventurers() {
+		return adventurers;
 	}
 
 }

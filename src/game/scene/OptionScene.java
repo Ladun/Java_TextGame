@@ -25,9 +25,9 @@ public class OptionScene extends AbstractScene {
 
 		switch(currentPos){
 		case 0:{
-			TextPrinter.print("뒤로가기", "정보", "인벤토리", "게임 종료");
+			int len = TextPrinter.print("뒤로가기", "정보", "인벤토리", "저장", "게임 종료");
 
-			int in = gm.getInput().getInt(0, 2);
+			int in = gm.getInput().getInt(0, len - 1);
 			switch(in) {
 			case 0:
 				gm.getSceneManager().setScene(gm.getSceneManager().getPreviousScene());
@@ -45,6 +45,9 @@ public class OptionScene extends AbstractScene {
 				TextPrinter.printFrame(gm.getPlayInfo().getInv().getGridFrame());
 				break;
 			case 3:
+				gm.save();
+				break;
+			case 4:
 				gm.setRunning(false);
 				break;
 			}

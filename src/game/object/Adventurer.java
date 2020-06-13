@@ -1,6 +1,7 @@
 package game.object;
 
 import game.GameManager;
+import game.file.AdventurerData;
 import game.resource.RenderEnum;
 
 public class Adventurer extends Entity implements Fightable{
@@ -8,6 +9,15 @@ public class Adventurer extends Entity implements Fightable{
 	public Adventurer(String name) {
 		super();
 		info.setName(name);
+	}
+	public Adventurer(AdventurerData data) {
+		info.setName(data.getName());		
+		info = new StateInfo(data.getName(), data.getStrength(), data.getVitality(), data.getIntellect(), data.getAgility(), data.getDexterity());
+		confirm();
+		type = data.getType();
+		health = data.getHealth();
+		stress = data.getStress();
+		
 	}
 	
 	public Adventurer(RenderEnum type, StateInfo info) {

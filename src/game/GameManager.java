@@ -1,12 +1,12 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.Random;
-
+import game.file.DataManager;
+import game.file.SaveData;
 import game.object.Adventurer;
-import game.object.GameObject;
 import game.resource.RenderEnum;
 import game.scene.SceneManager;
+import game.scene.SceneManager.SceneType;
+import game.scene.TavernScene;
 import game.util.TextPrinter;
 
 
@@ -18,7 +18,10 @@ public class GameManager{
 	private PlayInfo playInfo;
 	private SceneManager sceneManager;	
 	private ObjectManager objectManager;	
+	private DataManager dataManager;
 	private ItemDatabase itemDatabase;
+	
+	private int dataIdx;
 	
 	private int days = 0;
 	private int times = 0; // 0 ~ 23;
@@ -31,7 +34,9 @@ public class GameManager{
 		sb = new StringBuilder();
 		sceneManager = new SceneManager();
 		objectManager = new ObjectManager();
+		dataManager = new DataManager();
 		itemDatabase = new ItemDatabase();
+		
 	}
 
 	
@@ -42,24 +47,31 @@ public class GameManager{
 		int in = input.getInt(0, 1);		
 		
 		if(in == 0) {
+			dataManager.load();
+			
 			TextPrinter.printWithTag(RenderEnum.TAG_START_SELECT);
 
-			String[] saveFiles = new String[10];
-			// 세이브 파일 확인 하기
-			int curSaveFileCount = 0;
-
-			//
-			if(curSaveFileCount < 10) {
+			String[] saveFiles = new String[11];
+			
+			int curSaveFileCount = dataManager.getDataList().size();
+			
+			for(int i = 0; i <curSaveFileCount;i++) {
+				saveFiles[i] = dataManager.getDataList().get(i).getPlayer().getName();
+			}
+			
+			if(curSaveFileCount < DataManager.MAX_COUNT) {
 				saveFiles[curSaveFileCount] = "New";
 			}
  
-			TextPrinter.print(saveFiles);
-			in = input.getInt(0, curSaveFileCount);
-			if(in== curSaveFileCount) {
+			int len = TextPrinter.print(saveFiles);
+			in = input.getInt(0, len - 1);
+			if(in == curSaveFileCount) {
 				MakePlayInfo();
+				dataManager.makeSaveFile(this, playInfo);
 			}
 			else {
-				// TODO: Load PlayInfo
+				dataIdx = in;
+				LoadPlayInfo(dataManager.getDataList().get(dataIdx));
 			}
 			
 			if(playInfo == null)
@@ -119,8 +131,16 @@ public class GameManager{
 		
 	}
 	
-	private void LoadPlayInfo() {
-		
+	private void LoadPlayInfo(SaveData saveData) {
+		this.days = saveData.getDays();
+		this.times = saveData.getTimes();
+		playInfo = new PlayInfo(this, saveData);
+		sceneManager.<TavernScene>getScene(SceneType.TAVERN).loadData(saveData);
+	}
+	
+	public void save() {
+		dataManager.getDataList().get(dataIdx).setPlayInfo(this, playInfo);
+		dataManager.serialize(dataIdx);
 	}
 	
 	//------------------------------------------------------------

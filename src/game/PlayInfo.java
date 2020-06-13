@@ -1,5 +1,6 @@
 package game;
 
+import game.file.SaveData;
 import game.item.Inventory;
 import game.object.Adventurer;
 
@@ -20,8 +21,15 @@ public class PlayInfo {
 		money = 300;
 	}
 	
-	public PlayInfo(String saveFile) {
-		
+	public PlayInfo(GameManager gm, SaveData saveData) {
+		player = new Adventurer(saveData.getPlayer());
+		team_members = new Adventurer[2];
+		for(int i = 0; i < 2; i++) {
+			if(!saveData.getTeam_members()[i].isNull())
+				team_members[i] =  new Adventurer(saveData.getTeam_members()[i]);
+		}
+		money = saveData.getMoney();
+		inv = new Inventory(gm, saveData.getInv());
 	}
 	
 	public String[] getAdventurerInfo() {
@@ -42,7 +50,7 @@ public class PlayInfo {
 	public Inventory getInv() {
 		return inv;
 	}
-	
+
 	public Adventurer getPlayer() {		
 		return player;
 	}

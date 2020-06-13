@@ -1,8 +1,10 @@
 package game.item;
 
+import game.GameManager;
+import game.file.InventoryData;
 import game.resource.GridFrame;
 
-public class Inventory {
+public class Inventory{
 	
 	class Slot{
 		Item item;
@@ -20,6 +22,19 @@ public class Inventory {
 	private GridFrame invFrame;
 	
 	public Inventory() {
+		init();
+	}	
+	
+	public Inventory(GameManager gm, InventoryData data) {
+		init();
+		for(int i = 0; i < slots.length;i++) {
+			slots[i].item = new Item(gm.getItemDatabse().getItemInfo(data.getItemID()[i]));
+			slots[i].count = data.getItemAmount()[i];
+		}
+	}
+	
+	private void init() {
+
 		slots = new Slot[ROW_COUNT * COL_COUNT];
 		for(int i = 0; i < slots.length;i++) {
 			slots[i] = new Slot();
@@ -77,5 +92,20 @@ public class Inventory {
 		invFrame.setting(strs);
 		
 		return invFrame;
+	}
+	
+	public int[] getItemIDs() {
+		int[] ids = new int[ROW_COUNT * COL_COUNT];
+		for(int i = 0; i< ids.length; i++)
+			ids[i] = slots[i].item.getInfo().getId();
+		
+		return ids;
+	}
+	public int[] getItemCounts() {
+		int[] counts = new int[ROW_COUNT * COL_COUNT];
+		for(int i = 0; i< counts.length; i++)
+			counts[i] = slots[i].count;
+		
+		return counts;
 	}
 }
