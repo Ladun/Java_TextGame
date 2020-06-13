@@ -65,12 +65,12 @@ public class GameManager{
  
 			int len = TextPrinter.print(saveFiles);
 			in = input.getInt(0, len - 1);
+			dataIdx = in;
 			if(in == curSaveFileCount) {
 				MakePlayInfo();
 				dataManager.makeSaveFile(this, playInfo);
 			}
 			else {
-				dataIdx = in;
 				LoadPlayInfo(dataManager.getDataList().get(dataIdx));
 			}
 			

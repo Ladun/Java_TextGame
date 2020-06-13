@@ -9,7 +9,7 @@ public class InventoryData implements Serializable{
 	int[] itemAmount;
 
 	public void setting(Inventory inv) {
-		itemID = inv.getItemCounts();
+		itemID = inv.getItemIDs();
 		itemAmount = inv.getItemCounts();
 	}
 

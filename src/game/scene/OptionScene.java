@@ -25,6 +25,7 @@ public class OptionScene extends AbstractScene {
 
 		switch(currentPos){
 		case 0:{
+			
 			int len = TextPrinter.print("뒤로가기", "정보", "인벤토리", "저장", "게임 종료");
 
 			int in = gm.getInput().getInt(0, len - 1);

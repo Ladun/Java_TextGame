@@ -16,7 +16,7 @@ public class ObjectManager {
 	
 	public ObjectManager() {
 		ArrayList<StateInfo> forestEnemy = new ArrayList<>();
-		forestEnemy.add(new StateInfo("Goblin",60, 60, 15, 50, 40));
+		forestEnemy.add(new StateInfo("Goblin",60, 40, 15, 50, 40));
 		
 		enemyMap.put(MapType.FOREST, forestEnemy);
 	}

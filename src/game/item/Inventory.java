@@ -28,7 +28,8 @@ public class Inventory{
 	public Inventory(GameManager gm, InventoryData data) {
 		init();
 		for(int i = 0; i < slots.length;i++) {
-			slots[i].item = new Item(gm.getItemDatabse().getItemInfo(data.getItemID()[i]));
+			if(data.getItemID()[i] != -1)
+				slots[i].item = new Item(gm.getItemDatabse().getItemInfo(data.getItemID()[i]));
 			slots[i].count = data.getItemAmount()[i];
 		}
 	}
@@ -97,7 +98,10 @@ public class Inventory{
 	public int[] getItemIDs() {
 		int[] ids = new int[ROW_COUNT * COL_COUNT];
 		for(int i = 0; i< ids.length; i++)
-			ids[i] = slots[i].item.getInfo().getId();
+			if(slots[i].item == null)
+				ids[i] = -1;
+			else
+				ids[i] = slots[i].item.getInfo().getId();
 		
 		return ids;
 	}

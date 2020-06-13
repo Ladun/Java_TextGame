@@ -197,11 +197,14 @@ public class AdventureScene extends AbstractScene{
 				
 				int len = TextPrinter.print(strs);
 				in = gm.getInput().getInt(0, len - 1);
-				if(in == 0)
+				if(in == 0) {
 					gm.getSceneManager().setScene(SceneType.OPTION);	
+					break;
+				}
 				else if(in == 1) {
 					fightState = 1;
 					selectEnemy = -1;
+					break;
 				}
 				else{
 					selectSkill = in - 2;
@@ -294,8 +297,10 @@ public class AdventureScene extends AbstractScene{
 				treasureIdx++;
 			} while (treasureIdx < currentRoom.treasures.length && currentRoom.treasures[treasureIdx] == null);
 
-			if (treasureIdx == currentRoom.treasures.length)
+			if (treasureIdx == currentRoom.treasures.length) {
+				treasureIdx = 0;
 				currentPos = 0;
+			}
 			break;
 		}
 		case 3:{
